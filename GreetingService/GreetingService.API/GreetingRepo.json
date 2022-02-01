@@ -1,0 +1,37 @@
+[
+  {
+    "Message": "blabla",
+    "From": "Tine",
+    "To": "Koen",
+    "TimeStamp": "2022-01-27T19:57:18.25Z",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  },
+  {
+    "Message": "string",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-01-26T14:33:47.999Z",
+    "id": "3fa85f64-5717-4562-c3fc-2c963f66afa6"
+  },
+  {
+    "Message": "string",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-01-26T14:33:47.999Z",
+    "id": "3fa85f64-5717-4562-d3fc-2c963f66afa6"
+  },
+  {
+    "Message": "string",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-01-26T14:33:47.999Z",
+    "id": "3fa85f64-5717-4562-e3fc-2c963f66afa6"
+  },
+  {
+    "Message": "string",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-01-26T14:33:47.999Z",
+    "id": "3fa85f64-5717-4562-f3fc-2c963f66afa6"
+  }
+]
