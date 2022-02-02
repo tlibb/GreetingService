@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace GreetingService.API.Client;
 
@@ -16,7 +17,10 @@ public class Program
         try
         {
             var response = await _httpClient.GetAsync("http://localhost:5159/api/Greeting");
-            response.EnsureSuccessStatusCode();                                                 //throws exception if HTTP response status is not a success status
+            response.EnsureSuccessStatusCode();
+
+            
+            //throws exception if HTTP response status is not a success status
             var responseBody = await response.Content.ReadAsStringAsync();
 
             //Do something with response
@@ -33,6 +37,28 @@ public class Program
         {
             Console.WriteLine($"Get greetings failed: {e.Message}\\n");
         }
+    }
+
+    private static async Task GetGreetingsReturnResponseAsync()
+    {
+        HttpResponseMessage response;
+        int counter =0;
+        do
+        {
+            while (!Console.KeyAvailable)
+            {
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+                response = await _httpClient.GetAsync("https://tine-appservice-dev.azurewebsites.net/api/Greeting");
+                var responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response: {response.StatusCode} - Call: {counter} - Latency: {timer.Elapsed.TotalMilliseconds} ms - rate/s: {1.0/(timer.Elapsed.TotalSeconds)} ");
+                timer.Stop();
+                counter++;
+            }
+        }
+        while (Console.ReadKey(true).Key != ConsoleKey.Escape); 
+
+        
     }
 
     private static async Task GetGreetingAsync(Guid id)
@@ -88,48 +114,37 @@ public class Program
     public static async Task Main(string[] args)
     {
 
-	    Console.WriteLine("                                           I8                                   ");
-	    Console.WriteLine("                                           I8                                   ");
-	    Console.WriteLine("                                        88888888 gg                             ");
-	    Console.WriteLine("                                           I8    ''                             ");
-	    Console.WriteLine("   ,gggg,gg   ,gggggg,   ,ggg,    ,ggg,    I8    gg    ,ggg,,ggg,     ,gggg,gg  ");
-	    Console.WriteLine("  dP'  'Y8I   dP''''8I  i8' '8i  i8' '8i   I8    88   ,8' '8P' '8,   dP'  'Y8I  ");
-	    Console.WriteLine(" i8'    ,8I  ,8'    8I  I8, ,8I  I8, ,8I  ,I8,   88   I8   8I   8I  i8'    ,8I  ");
-	    Console.WriteLine(",d8,   ,d8I ,dP     Y8, `YbadP'  `YbadP' ,d88b,_,88,_,dP   8I   Yb,,d8,   ,d8I  ");
-	    Console.WriteLine("P'Y8888P''8888P      `Y8888P'Y888888P'Y8888P''Y88P''Y88P'   8I   `Y8P'Y8888P'888");
-	    Console.WriteLine("       ,d8I'                                                              ,d8I' ");
-	    Console.WriteLine("     ,dP'8I                                                             ,dP'8I  ");
-	    Console.WriteLine("    ,8'  8I                                                            ,8'  8I  ");
-	    Console.WriteLine("    I8   8I                                                            I8   8I  ");
-	    Console.WriteLine("    `8, ,8I                                                            `8, ,8I  ");
-	    Console.WriteLine("     `Y8P'                                                              `Y8P''  ");
+        Console.WriteLine("                                           I8                                   ");
+        Console.WriteLine("                                           I8                                   ");
+        Console.WriteLine("                                        88888888 gg                             ");
+        Console.WriteLine("                                           I8    ''                             ");
+        Console.WriteLine("   ,gggg,gg   ,gggggg,   ,ggg,    ,ggg,    I8    gg    ,ggg,,ggg,     ,gggg,gg  ");
+        Console.WriteLine("  dP'  'Y8I   dP''''8I  i8' '8i  i8' '8i   I8    88   ,8' '8P' '8,   dP'  'Y8I  ");
+        Console.WriteLine(" i8'    ,8I  ,8'    8I  I8, ,8I  I8, ,8I  ,I8,   88   I8   8I   8I  i8'    ,8I  ");
+        Console.WriteLine(",d8,   ,d8I ,dP     Y8, `YbadP'  `YbadP' ,d88b,_,88,_,dP   8I   Yb,,d8,   ,d8I  ");
+        Console.WriteLine("P'Y8888P''8888P      `Y8888P'Y888888P'Y8888P''Y88P''Y88P'   8I   `Y8P'Y8888P'888");
+        Console.WriteLine("       ,d8I'                                                              ,d8I' ");
+        Console.WriteLine("     ,dP'8I                                                             ,dP'8I  ");
+        Console.WriteLine("    ,8'  8I                                                            ,8'  8I  ");
+        Console.WriteLine("    I8   8I                                                            I8   8I  ");
+        Console.WriteLine("    `8, ,8I                                                            `8, ,8I  ");
+        Console.WriteLine("     `Y8P'                                                              `Y8P''  ");
 
 
-        Console.WriteLine();
-        PrintAndReadOptions();
-        string res = Console.ReadLine();
-
-        switch (res)
-        {
-            case "1":
-                await GetGreetingsAsync();
-                break;
-            case "2": 
-                Console.WriteLine("What is the ID of the greeting?");
-                var myID = Console.ReadLine();
-                await GetGreetingAsync(Guid.Parse(myID));
-                break;
-            case "3":
-                await TransformGreetingAsync();
-                break;
-
-        }
+        Console.WriteLine("Press escape to stop");
+        await GetGreetingsReturnResponseAsync();
 
 
 
 
 
-        
+
+
+
+
+
+
+
 
 
     }
