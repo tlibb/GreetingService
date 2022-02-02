@@ -1,9 +1,9 @@
 [
   {
-    "Message": "blabla",
-    "From": "Tine",
-    "To": "Koen",
-    "TimeStamp": "2022-01-27T19:57:18.25Z",
+    "Message": "hello",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
@@ -35,31 +35,38 @@
     "id": "3fa85f64-5717-4562-f3fc-2c963f66afa6"
   },
   {
-    "Message": "string",
+    "Message": "hello",
     "From": "string",
     "To": "string",
-    "TimeStamp": "2022-02-01T13:41:53.799Z",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
-    "Message": "string",
+    "Message": "hello",
     "From": "string",
     "To": "string",
-    "TimeStamp": "2022-02-01T13:41:53.799Z",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
-    "Message": "string",
+    "Message": "hello",
     "From": "string",
     "To": "string",
-    "TimeStamp": "2022-02-01T13:41:53.799Z",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
-    "Message": "string",
+    "Message": "hello",
     "From": "string",
     "To": "string",
-    "TimeStamp": "2022-02-01T13:41:53.799Z",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  },
+  {
+    "Message": "hello",
+    "From": "string",
+    "To": "string",
+    "TimeStamp": "2022-02-02T10:47:34.122Z",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   }
 ]

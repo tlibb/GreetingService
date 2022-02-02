@@ -20,16 +20,17 @@ namespace GreetingService.API.Controllers
 
         // GET: api/<GreetingController>
         [HttpGet]
-        //      [BasicAuth]
+        [BasicAuth]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Greeting>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
         {
             try
             {
-                return Ok(_greetingRepository.Get());
+                var responseResult = _greetingRepository.Get();
+                return Ok(responseResult);
             }
-            catch (Exception ex)
+            catch
             {
                 return NotFound();
             }
@@ -43,7 +44,8 @@ namespace GreetingService.API.Controllers
         {
             try
             {
-                return Ok(_greetingRepository.Get(id));
+                var responseResult = _greetingRepository.Get(id);
+                return Ok(responseResult);
             }
             catch (Exception ex)
             {

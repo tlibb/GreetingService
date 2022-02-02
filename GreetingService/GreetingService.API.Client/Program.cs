@@ -16,6 +16,7 @@ public class Program
     {
         try
         {
+            Console.WriteLine("we are here");
             var response = await _httpClient.GetAsync("http://localhost:5159/api/Greeting");
             response.EnsureSuccessStatusCode();
 
@@ -132,19 +133,9 @@ public class Program
 
 
         Console.WriteLine("Press escape to stop");
-        await GetGreetingsReturnResponseAsync();
+        //await GetGreetingsReturnResponseAsync();
 
-
-
-
-
-
-
-
-
-
-
-
+        await GetGreetingsAsync();
 
 
     }

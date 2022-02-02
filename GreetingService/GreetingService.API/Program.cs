@@ -17,13 +17,13 @@ builder.Services.AddScoped<IGreetingRepository, FileGreetingRepository>(c => {
     var config = c.GetService<IConfiguration>();
     return new FileGreetingRepository(config["FileRepositoryFilePath"]);
 });
-builder.Services.AddScoped<IUserService, HardCodedUserService>();
+builder.Services.AddScoped<IUserService, AppSettingsUserService>();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

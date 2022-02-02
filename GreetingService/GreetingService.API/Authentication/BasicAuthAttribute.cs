@@ -8,7 +8,7 @@ namespace GreetingService.API.Authentication
     { 
         public BasicAuthAttribute(string realm = "Basic") : base(typeof(BasicAuthFilter))
         {
-            object[] Arguments = new object[] { realm };
+            Arguments = new object[] { realm };
         }
     }
 }
