@@ -62,14 +62,26 @@ namespace GreetingService.Infrastructure
 
             // Update the greeting
 
-            greetings.Where(g => g.id == greeting.id).Select(g =>
+            var existinggreeting = greetings?.Where(g => g.id == greeting.id).FirstOrDefault();
+
+            if (existinggreeting != null)
             {
-                g.Message = greeting.Message;
-                g.To = greeting.To;
-                g.From = greeting.From;
-                g.TimeStamp = greeting.TimeStamp;
-                return g;
-            }).ToList();
+                existinggreeting.To = greeting.To;
+                existinggreeting.From = greeting.From;
+                existinggreeting.Message = greeting.Message;
+            }
+            else throw new KeyNotFoundException("id not found");
+
+
+
+            //greetings.Where(g => g.id == greeting.id).Select(g =>
+            //{
+            //    g.Message = greeting.Message;
+            //    g.To = greeting.To;
+            //    g.From = greeting.From;
+            //    g.TimeStamp = greeting.TimeStamp;
+            //    return g;
+            //}).ToList();
 
 
             File.WriteAllText(_jsonPath, JsonSerializer.Serialize(greetings, _options));
