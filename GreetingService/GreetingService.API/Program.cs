@@ -18,6 +18,7 @@ builder.Services.AddScoped<IGreetingRepository, FileGreetingRepository>(c => {
     return new FileGreetingRepository(config["FileRepositoryFilePath"]);
 });
 builder.Services.AddScoped<IUserService, AppSettingsUserService>();
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
 
 var app = builder.Build();

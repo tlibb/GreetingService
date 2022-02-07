@@ -4,9 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationInsightsResourceId>/subscriptions/5bb1b2d9-ed37-4ee3-9053-56954eaa90c7/resourcegroups/tine-rg-dev/providers/Microsoft.Insights/components/GreetingServiceAPI</ApplicationInsightsResourceId>
+    <UserSecretsId>f5c6f34f-24cf-4743-abfa-033082873c4b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
