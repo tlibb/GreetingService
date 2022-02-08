@@ -4,6 +4,7 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
+using GreetingService.API.Function.Authentication;
 
 [assembly: FunctionsStartup(typeof(GreetingService.API.Function.Startup))]
 
@@ -20,6 +21,8 @@ namespace GreetingService.API.Function
                 return new FileGreetingRepository(config["FileRepositoryFilePath"]);
             });
             builder.Services.AddScoped<IUserService, AppSettingsUserService>();
+
+            builder.Services.AddScoped<IAuthHandler, BasicAuthHandler>();
 
             
 

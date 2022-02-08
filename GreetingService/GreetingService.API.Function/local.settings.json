@@ -3,6 +3,8 @@
     "Values": {
       "AzureWebJobsStorage": "UseDevelopmentStorage=true",
       "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-      "FileRepositoryFilePath": "GreetingRepo.json"
+      "FileRepositoryFilePath": "GreetingRepo.json",
+      "MyUserName": "Tine",
+      "MyPassWord":  "pw0"
     }
 }

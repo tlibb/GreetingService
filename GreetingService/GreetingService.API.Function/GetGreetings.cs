@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using GreetingService.Core.Entities;
+using GreetingService.API.Function.Authentication;
 
 namespace GreetingService.API.Function
 {
@@ -20,10 +21,13 @@ namespace GreetingService.API.Function
 
         private readonly IGreetingRepository _greetingRepository;
 
-        public GetGreetings(ILogger<GetGreetings> log, IGreetingRepository greetingRepository)
+        private readonly IAuthHandler _auth;
+
+        public GetGreetings(ILogger<GetGreetings> log, IGreetingRepository greetingRepository, IAuthHandler auth)
         {
             _logger = log;
             _greetingRepository = greetingRepository;
+            _auth = auth;
         }
 
         [FunctionName("GetGreetings")]
@@ -35,9 +39,13 @@ namespace GreetingService.API.Function
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var responseresult = _greetingRepository.Get();
+            if (_auth.IsAuthorized(req))
+            {
+                var responseresult = _greetingRepository.Get();
 
-            return new OkObjectResult(responseresult);
+                return new OkObjectResult(responseresult);
+            }
+            else return new UnauthorizedResult();
         }
     }
 }
