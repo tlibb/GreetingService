@@ -39,6 +39,8 @@ namespace GreetingService.API.Function
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
+            //return new OkObjectResult(_greetingRepository.Get());
+
             if (_auth.IsAuthorized(req))
             {
                 var responseresult = _greetingRepository.Get();
