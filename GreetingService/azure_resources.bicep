@@ -1,14 +1,23 @@
-param appName string = 'BicepGreetingService'
 param location string = 'northeurope'
 
 // storage accounts must be between 3 and 24 characters in length and use numbers and lower-case letters only
 var storageAccountName = 'bicepstoragetinedev' 
 var hostingPlanName = 'BicepNorthEuropePlan'
 var appInsightsName = 'BicepFunctionInsights'
-var functionAppName = 'BicepGreetingService'
+var functionAppName = 'ANewGreetingService'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   name: storageAccountName
+  location: location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+    tier: 'Standard'
+  }
+}
+
+resource createStorage 'Microsoft.Storage/storageAccounts@2019-06-01' = {
+  name: 'tinesblobstorage'
   location: location
   kind: 'StorageV2'
   sku: {
@@ -70,6 +79,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
+        }
+        {
+          name: 'LoggingStorageAccount'
+          value: 'DefaultEndpointsProtocol=https;AccountName=bicepstoragetinedev;AccountKey=v5MAtR6K7LwINAOFnD1p5XXuNnCzYH9ZVW5Dg2TUByz1qj5GzwFs7Nvfa4G9LynhMmnj6f+12Oea7RMWjgDjug==;EndpointSuffix=core.windows.net'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
