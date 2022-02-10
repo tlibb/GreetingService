@@ -40,7 +40,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 2.0.9
+          dotnet-version: 1.1.13
       
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v2
