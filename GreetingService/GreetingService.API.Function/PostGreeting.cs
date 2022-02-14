@@ -40,6 +40,7 @@ namespace GreetingService.API.Function
 
             Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
 
+
             try
             {
                 _greetingRepository.Create(mygreeting);
