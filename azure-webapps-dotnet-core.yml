@@ -75,7 +75,7 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '3s'
-          
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
@@ -85,6 +85,11 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Sleep for 3 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '3s'
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
