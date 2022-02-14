@@ -1,10 +1,18 @@
 param location string = 'northeurope'
 
 // storage accounts must be between 3 and 24 characters in length and use numbers and lower-case letters only
+
 var storageAccountName = 'bicepstoragetinedev' 
 var hostingPlanName = 'BicepNorthEuropePlan'
 var appInsightsName = 'BicepFunctionInsights'
 var functionAppName = 'ANewGreetingService'
+
+// targetScope = 'subscription'
+
+// resource rg 'Microsoft.Resources/resourceGroups@2021-01-01' = {
+//   name: 'BicepResourceGroupTineDev'
+//   location: location
+// }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   name: storageAccountName
