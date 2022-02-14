@@ -38,7 +38,7 @@ namespace GreetingService.API.Function
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             Guid.TryParse(id, out Guid parsedId);
-            //question can we do this in one line???
+            //question can we do this in one line?????
             var responseresult = _greetingRepository.Get(parsedId);
 
             return new OkObjectResult(responseresult);
