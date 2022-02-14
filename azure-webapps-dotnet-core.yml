@@ -82,8 +82,8 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az group create -l northeurope -n bicepstoragetinedev
-            az deployment group create --resource-group bicepstoragetinedev --template-file azure_resources.bicep --parameters appName=ANewGreetingService
+            az group create -l 'northeurope' -n 'bicepstoragetinedev'
+            az deployment group create --resource-group 'bicepstoragetinedev' --template-file azure_resources.bicep 
 
   deploy:
     runs-on: ubuntu-latest
