@@ -70,6 +70,12 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+
+      - name: Sleep for 3 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '3s'
+          
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
