@@ -39,7 +39,9 @@ namespace GreetingService.API.Function
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
             Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
+                
 
+            //some comment
             try
             {
                 _greetingRepository.Update(mygreeting);
