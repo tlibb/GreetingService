@@ -35,6 +35,7 @@ namespace GreetingService.API.Function
 
             var connectionString = config["LoggingStorageAccount"];
 
+
             var logger = new LoggerConfiguration()
                .WriteTo.AzureBlobStorage(connectionString)
                .CreateLogger();
