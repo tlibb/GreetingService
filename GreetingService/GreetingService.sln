@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreetingService.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreetingService.API.Client", "GreetingService.API.Client\GreetingService.API.Client.csproj", "{BFC8B234-DD58-4EE2-A7DA-C35990364CA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreetingService.API.Function", "GreetingService.API.Function\GreetingService.API.Function.csproj", "{4A7B42C5-C66D-49D9-97B7-E10EF9085309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreetingService.API.Function", "GreetingService.API.Function\GreetingService.API.Function.csproj", "{4A7B42C5-C66D-49D9-97B7-E10EF9085309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreetingService.Infrastructure.Test", "GreetingService.Infrastructure.Test\GreetingService.Infrastructure.Test.csproj", "{3A422DAB-FA82-4B34-852E-CEE7BECE66DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4A7B42C5-C66D-49D9-97B7-E10EF9085309}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A7B42C5-C66D-49D9-97B7-E10EF9085309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A7B42C5-C66D-49D9-97B7-E10EF9085309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A422DAB-FA82-4B34-852E-CEE7BECE66DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A422DAB-FA82-4B34-852E-CEE7BECE66DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A422DAB-FA82-4B34-852E-CEE7BECE66DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A422DAB-FA82-4B34-852E-CEE7BECE66DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
