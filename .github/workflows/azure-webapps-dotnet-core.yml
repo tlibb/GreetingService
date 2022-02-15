@@ -31,7 +31,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +53,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build ./GreetingService --configuration Release
 
+      - name: Test
+        run: dotnet test ./GreetingService --no-restore --verbosity normal
+
       - name: dotnet publish
         run: dotnet publish ./GreetingService -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
@@ -62,7 +65,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-          
+
 
   deploy_bicep:
     runs-on: ubuntu-latest
