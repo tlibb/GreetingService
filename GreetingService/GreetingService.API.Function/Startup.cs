@@ -42,7 +42,7 @@ namespace GreetingService.API.Function
 
             Log.Logger = logger;
 
-            builder.Services.AddSingleton<IGreetingRepository, BlobGreetingRepository>(c =>
+            builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
             {
                 var config = c.GetService<IConfiguration>();
                 return new BlobGreetingRepository(config["LoggingStorageAccount"]);

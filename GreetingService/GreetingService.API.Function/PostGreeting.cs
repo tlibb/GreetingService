@@ -48,7 +48,7 @@ namespace GreetingService.API.Function
             }
             catch 
             {
-                return new NotFoundObjectResult("Didn't work");
+                return new NotFoundObjectResult("Didn't work. Check whether Guid is unique");
             }
 
 

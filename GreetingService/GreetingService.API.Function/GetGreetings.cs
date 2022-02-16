@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using GreetingService.Core.Entities;
 using GreetingService.API.Function.Authentication;
+using System;
 
 namespace GreetingService.API.Function
 {
@@ -43,9 +44,17 @@ namespace GreetingService.API.Function
 
             if (_auth.IsAuthorized(req))
             {
-                var responseresult = await _greetingRepository.GetAsync();
+                try
+                {
+                    var responseresult = await _greetingRepository.GetAsync();
+                    return new OkObjectResult(responseresult);
+                }
+                catch (Exception ex)
+                {
+                    return new NotFoundObjectResult(ex.Message);
+                }
 
-                return new OkObjectResult(responseresult);
+                
             }
             else return new UnauthorizedResult();
         }
