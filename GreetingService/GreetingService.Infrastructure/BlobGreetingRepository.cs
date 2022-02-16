@@ -45,7 +45,20 @@ namespace GreetingService.Infrastructure
 
         public async Task<Greeting> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var myBlobs = _container.GetBlobsAsync();
+            var myGreetings = new List<Greeting>();
+            await foreach (var b in myBlobs)
+            {
+                var blobClient = _container.GetBlobClient(b.Name);
+                var mycontent = await blobClient.DownloadContentAsync();
+                var myGreeting = mycontent.Value.Content.ToObjectFromJson<Greeting>();
+                if (myGreeting.id == id)
+                {
+                    return myGreeting;
+                } 
+            }
+            return null;
+
         }
 
         public async Task<IEnumerable<Greeting>> GetAsync()
