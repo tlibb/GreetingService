@@ -43,7 +43,7 @@ namespace GreetingService.API.Function
 
             try
             {
-                _greetingRepository.Create(mygreeting);
+                await _greetingRepository.CreateAsync(mygreeting);
                 return new OkObjectResult("Posted");
             }
             catch 

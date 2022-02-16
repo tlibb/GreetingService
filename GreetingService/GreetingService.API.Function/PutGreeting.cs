@@ -44,7 +44,7 @@ namespace GreetingService.API.Function
             //some comment
             try
             {
-                _greetingRepository.Update(mygreeting);
+                await _greetingRepository.UpdateAsync(mygreeting);
                 return new OkObjectResult("Updated");
             }
             catch 

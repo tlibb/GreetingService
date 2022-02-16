@@ -16,12 +16,12 @@ namespace GreetingService.Infrastructure
             _memoryRepo = new List<Greeting>(); 
         }
 
-        public void Create(Greeting greeting)
+        public async Task CreateAsync(Greeting greeting)
         {
             _memoryRepo.Add(greeting);
         }
 
-        public Greeting Get(Guid id)
+        public async Task<Greeting> GetAsync(Guid id)
         {
             var myGreeting = from g in _memoryRepo
                              where g.id == id
@@ -30,12 +30,12 @@ namespace GreetingService.Infrastructure
             return myGreeting.FirstOrDefault();
         }
 
-        public IEnumerable<Greeting> Get()
+        public async Task<IEnumerable<Greeting>> GetAsync()
         {
             return _memoryRepo;
         }
 
-        public void Update(Greeting greeting)
+        public async Task UpdateAsync(Greeting greeting)
         {
             var existinggreeting = _memoryRepo.Where(g => g.id == greeting.id).FirstOrDefault();
 

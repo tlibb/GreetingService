@@ -22,7 +22,7 @@ namespace GreetingService.API.Function
             //    return new FileGreetingRepository(config["FileRepositoryFilePath"]);
             //});
 
-            builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
+            //builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
 
             builder.Services.AddScoped<IUserService, AppSettingsUserService>();
 
@@ -32,7 +32,7 @@ namespace GreetingService.API.Function
                 loggingBuilder.AddSerilog(dispose: true));
 
             IConfiguration config = builder.GetContext().Configuration;
-
+            
             var connectionString = config["LoggingStorageAccount"];
 
 
@@ -41,6 +41,12 @@ namespace GreetingService.API.Function
                .CreateLogger();
 
             Log.Logger = logger;
+
+            builder.Services.AddSingleton<IGreetingRepository, BlobGreetingRepository>(c =>
+            {
+                var config = c.GetService<IConfiguration>();
+                return new BlobGreetingRepository(config["LoggingStorageAccount"]);
+            });
 
             //builder.Services.AddSingleton<ILoggerProvider, MyLoggerProvider>();
         }

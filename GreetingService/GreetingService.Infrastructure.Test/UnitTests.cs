@@ -1,38 +1,39 @@
 using Xunit;
 using GreetingService;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GreetingService.Infrastructure.Test
 {
     public class UnitTests
     {
         [Fact]
-        public void test_memorygreetingrepo_create()
+        public async Task test_memorygreetingrepo_createAsync()
         {
             var myRepo = new MemoryGreetingRepository();
             var myGreeting = new Core.Entities.Greeting();
 
-            var ListRepo = myRepo.Get();
-            Assert.Empty(ListRepo);
+            var ListRepo = await myRepo.GetAsync();
+            Assert.Empty((System.Collections.IEnumerable)ListRepo);
 
-            myRepo.Create(myGreeting);
-            ListRepo = myRepo.Get();
+            _ = myRepo.CreateAsync(myGreeting);
+            ListRepo = await myRepo.GetAsync();
 
             Assert.NotNull(myGreeting);
             Assert.NotEmpty(ListRepo);
-            Assert.Equal(1, ListRepo.ToList().Count);
+            Assert.Single(ListRepo.ToList());
 
         }
 
         [Fact]
-        public void test_memorygreetingrepo_getid()
+        public async Task test_memorygreetingrepo_getid()
         {
             var myRepo = new MemoryGreetingRepository();
             var myGreeting = new Core.Entities.Greeting();
             var myID = myGreeting.id;
 
-            myRepo.Create(myGreeting);
-            var newGreeting = myRepo.Get(myID);
+            await myRepo.CreateAsync(myGreeting);
+            var newGreeting = await myRepo.GetAsync(myID);
 
             Assert.Equal(myGreeting, newGreeting);
 

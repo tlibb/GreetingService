@@ -2,9 +2,9 @@
 {
     public interface IGreetingRepository
     {
-        public Greeting Get(Guid id);
-        public IEnumerable<Greeting> Get();
-        public void Create(Greeting greeting);
-        public void Update(Greeting greeting);
+        public Task<Greeting> GetAsync(Guid id);
+        public Task<IEnumerable<Greeting>> GetAsync();
+        public Task CreateAsync(Greeting greeting);
+        public Task UpdateAsync(Greeting greeting);
     }
 }

@@ -1,91 +1,62 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-
 using GreetingService.Core.Entities;
+using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Azure.Storage.Blobs.Models;
 
 namespace GreetingService.Infrastructure
 {
-    public class FileGreetingRepository : IGreetingRepository
+    public class BlobGreetingRepository : IGreetingRepository
     {
-        public readonly string? _jsonPath;
+
+        private readonly BlobContainerClient _container;
+
+        private readonly string _filepPath = "blobfile.json";
         
-        public static readonly JsonSerializerOptions _options = new () { WriteIndented = true };
-
-        public FileGreetingRepository(string pathToFile)
+        public BlobGreetingRepository(string connectionString)
         {
-            if (!File.Exists(pathToFile))
-            {
-                File.WriteAllText(pathToFile, "[ ]");
-            }
-
-            _jsonPath = pathToFile;
+           
+            BlobContainerClient _container = new BlobContainerClient(connectionString, "myfirstcontainer");
+            _container.Create();
         }
 
-        public void Create(Greeting greeting)
+        public async Task CreateAsync(Greeting greeting)
         {
-            string jsonstr = File.ReadAllText(_jsonPath);
-            List<Greeting> greetings = JsonSerializer.Deserialize<List<Greeting>>(jsonstr);
+            //string jsonString = JsonSerializer.Serialize(greeting);
+            MemoryStream mystream = new MemoryStream();
+            await JsonSerializer.SerializeAsync(mystream, greeting, greeting.GetType());
 
-            greetings.Add(greeting);
-
-            File.WriteAllText(_jsonPath, JsonSerializer.Serialize(greetings, _options));
+            _container.UploadBlob("first", mystream);
 
         }
 
-        public Greeting Get(Guid id)
+        public async Task<Greeting> GetAsync(Guid id)
         {
-            string jsonstr = File.ReadAllText(_jsonPath);
-            List<Greeting> greetings = JsonSerializer.Deserialize<List<Greeting>>(jsonstr);
-
-            var greeting = from g in greetings
-                           where g.id == id
-                           select g;
-
-            return greeting.FirstOrDefault();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Greeting> Get()
+        public async Task<IEnumerable<Greeting>> GetAsync()
         {
-            string jsonstr = File.ReadAllText(_jsonPath);
-            var greetings = JsonSerializer.Deserialize<IList<Greeting>>(jsonstr);
-            return greetings;
+           
+            var memorystream = new MemoryStream();
+            var myClient = new BlobClient(new Uri("https://tinesblobstorage.blob.core.windows.net/myfirstcontainer/first"));
+            myClient.DownloadTo(memorystream);
+            IEnumerable<Greeting> myGreetings = JsonSerializer.Deserialize<IEnumerable<Greeting>>(memorystream);
+
+            return myGreetings;
+            //throw new NotImplementedException();
         }
 
-        public void Update(Greeting greeting)
+        public async Task UpdateAsync(Greeting greeting)
         {
-            string jsonstr = File.ReadAllText(_jsonPath);
-            List<Greeting> greetings = JsonSerializer.Deserialize<List<Greeting>>(jsonstr);
-
-            // Update the greeting
-
-            var existinggreeting = greetings?.Where(g => g.id == greeting.id).FirstOrDefault();
-
-            if (existinggreeting != null)
-            {
-                existinggreeting.To = greeting.To;
-                existinggreeting.From = greeting.From;
-                existinggreeting.Message = greeting.Message;
-            }
-            else throw new KeyNotFoundException("id not found");
-
-
-
-            //greetings.Where(g => g.id == greeting.id).Select(g =>
-            //{
-            //    g.Message = greeting.Message;
-            //    g.To = greeting.To;
-            //    g.From = greeting.From;
-            //    g.TimeStamp = greeting.TimeStamp;
-            //    return g;
-            //}).ToList();
-
-
-            File.WriteAllText(_jsonPath, JsonSerializer.Serialize(greetings, _options));
-
+            throw new NotImplementedException();
         }
     }
 }

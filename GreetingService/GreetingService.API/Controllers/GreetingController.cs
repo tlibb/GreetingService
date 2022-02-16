@@ -23,11 +23,11 @@ namespace GreetingService.API.Controllers
         [BasicAuth]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Greeting>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
-                var responseResult = _greetingRepository.Get();
+                var responseResult = await _greetingRepository.GetAsync();
                 return Ok(responseResult);
             }
             catch
@@ -40,11 +40,11 @@ namespace GreetingService.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Greeting))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             try
             {
-                var responseResult = _greetingRepository.Get(id);
+                var responseResult = await _greetingRepository.GetAsync(id);
                 return Ok(responseResult);
             }
             catch (Exception ex)
@@ -56,17 +56,17 @@ namespace GreetingService.API.Controllers
 
         // POST api/<GreetingController>
         [HttpPost]
-        public void Post([FromBody] Greeting greeting)
+        public async Task PostAsync([FromBody] Greeting greeting)
         {
-            _greetingRepository.Create(greeting);
+            await _greetingRepository.CreateAsync(greeting);
             Console.WriteLine(greeting.Message);
         }
 
         // PUT api/<GreetingController>/5
         [HttpPut]
-        public void Put([FromBody] Greeting greeting)
+        public async Task PutAsync([FromBody] Greeting greeting)
         {
-            _greetingRepository.Update(greeting);
+            await _greetingRepository.UpdateAsync(greeting);
             Console.WriteLine(greeting.Message);
         }
 
