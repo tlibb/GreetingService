@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Azure.Storage.Blobs.Models;
 
-namespace GreetingService.Infrastructure
+namespace GreetingService.Infrastructure.GreetingRepository
 {
     public class BlobGreetingRepository : IGreetingRepository
     {
@@ -20,9 +20,9 @@ namespace GreetingService.Infrastructure
 
 
         
-        public BlobGreetingRepository(string connectionString)
+        public BlobGreetingRepository(IConfiguration config)
         {
-            _container = new BlobContainerClient(connectionString, "greetingcontainer");
+            _container = new BlobContainerClient(config["LoggingStorageAccount"], "greetingcontainer");
             _container.CreateIfNotExists();
             
          

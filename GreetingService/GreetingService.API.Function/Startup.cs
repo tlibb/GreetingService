@@ -1,10 +1,11 @@
 ﻿using GreetingService.Core.Entities;
-using GreetingService.Infrastructure;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using GreetingService.API.Function.Authentication;
 using Serilog;
+using GreetingService.Infrastructure.UserService;
+using GreetingService.Infrastructure.GreetingRepository;
 
 [assembly: FunctionsStartup(typeof(GreetingService.API.Function.Startup))]
 
@@ -24,7 +25,9 @@ namespace GreetingService.API.Function
 
             //builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
 
-            builder.Services.AddScoped<IUserService, AppSettingsUserService>();
+            //builder.Services.AddScoped<IUserService, AppSettingsUserService>();
+
+            
 
             builder.Services.AddScoped<IAuthHandler, BasicAuthHandler>();
 
@@ -32,7 +35,13 @@ namespace GreetingService.API.Function
                 loggingBuilder.AddSerilog(dispose: true));
 
             IConfiguration config = builder.GetContext().Configuration;
-            
+
+            builder.Services.AddScoped<IUserService, BlobUserService>(c =>
+            {
+                return new BlobUserService(config);
+            });
+           
+
             var connectionString = config["LoggingStorageAccount"];
 
 
@@ -45,7 +54,7 @@ namespace GreetingService.API.Function
             builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
             {
                 var config = c.GetService<IConfiguration>();
-                return new BlobGreetingRepository(config["LoggingStorageAccount"]);
+                return new BlobGreetingRepository(config);
             });
 
             //builder.Services.AddSingleton<ILoggerProvider, MyLoggerProvider>();

@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using GreetingService.Core.Entities;
 
-namespace GreetingService.Infrastructure
+namespace GreetingService.Infrastructure.GreetingRepository
 {
     public class MemoryGreetingRepository : IGreetingRepository
     {
         private readonly List<Greeting> _memoryRepo;
-        
+
         public MemoryGreetingRepository()
         {
-            _memoryRepo = new List<Greeting>(); 
+            _memoryRepo = new List<Greeting>();
         }
 
         public async Task CreateAsync(Greeting greeting)
@@ -26,7 +26,7 @@ namespace GreetingService.Infrastructure
             var myGreeting = from g in _memoryRepo
                              where g.id == id
                              select g;
-            
+
             return myGreeting.FirstOrDefault();
         }
 
@@ -53,6 +53,6 @@ namespace GreetingService.Infrastructure
             else throw new KeyNotFoundException("id not found");
         }
 
-        
+
     }
 }

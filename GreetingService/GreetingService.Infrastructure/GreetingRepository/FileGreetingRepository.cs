@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using GreetingService.Core.Entities;
 
-namespace GreetingService.Infrastructure
+namespace GreetingService.Infrastructure.GreetingRepository
 {
     public class FileGreetingRepository : IGreetingRepository
     {

@@ -1,7 +1,7 @@
 ﻿using GreetingService.Core.Entities;
 using Microsoft.Extensions.Configuration;
 
-namespace GreetingService.Infrastructure
+namespace GreetingService.Infrastructure.UserService
 {
     public class AppSettingsUserService : IUserService
     {
