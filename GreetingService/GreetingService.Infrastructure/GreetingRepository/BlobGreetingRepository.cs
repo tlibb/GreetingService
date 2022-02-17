@@ -32,8 +32,9 @@ namespace GreetingService.Infrastructure.GreetingRepository
         {
             
             var binarycontent = new BinaryData(greeting, new JsonSerializerOptions { WriteIndented = true }) ;
-            var myTime = DateTime.Now;
-            _container.UploadBlob($"{myTime.Year}/{myTime.Month}/{myTime.Day}/{greeting.id}", binarycontent);
+            //var myTime = DateTime.Now;
+            //_container.UploadBlob($"{myTime.Year}/{myTime.Month}/{myTime.Day}/{greeting.id}", binarycontent);
+            _container.UploadBlob($"{greeting.From}/{greeting.To}/{greeting.id}", binarycontent);
 
         }
 
@@ -41,6 +42,8 @@ namespace GreetingService.Infrastructure.GreetingRepository
         {
             var myBlobs = _container.GetBlobsAsync();
             var myGreetings = new List<Greeting>();
+            //actually this could be done with LINQ myBlobs.Where
+            //var blob = await blobs.FirstOrDefaultAsync(x => x.Name.EndsWith(id.ToString()));
             await foreach (var b in myBlobs)
             {
                 var blobClient = _container.GetBlobClient(b.Name);
