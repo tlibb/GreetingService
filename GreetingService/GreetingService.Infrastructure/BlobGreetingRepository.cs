@@ -18,25 +18,19 @@ namespace GreetingService.Infrastructure
 
         public BlobContainerClient _container;
 
-        //private readonly string _filepPath = "blobfile.json";
+
         
         public BlobGreetingRepository(string connectionString)
         {
-            //Check out this part: does not wrk when the container must be created. Right now it's hardcoded
-            //BlobContainerClient _container = new BlobContainerClient(connectionString, "greetingcontainer");
-            //_container.CreateIfNotExists();
-            var serviceClient = new BlobServiceClient(connectionString);
-            _container = serviceClient.GetBlobContainerClient("greetingcontainer");
+            _container = new BlobContainerClient(connectionString, "greetingcontainer");
+            _container.CreateIfNotExists();
+            
          
         }
 
         public async Task CreateAsync(Greeting greeting)
         {
-            //MemoryStream mystream = new MemoryStream();
-            //await JsonSerializer.SerializeAsync(mystream, greeting, greeting.GetType());
-
-            //mystream.Position = 0;
-
+            
             var binarycontent = new BinaryData(greeting, new JsonSerializerOptions { WriteIndented = true }) ;
             var myTime = DateTime.Now;
             _container.UploadBlob($"{myTime.Year}/{myTime.Month}/{myTime.Day}/{greeting.id}", binarycontent);
