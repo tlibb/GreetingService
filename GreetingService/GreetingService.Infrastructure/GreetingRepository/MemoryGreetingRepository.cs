@@ -35,6 +35,32 @@ namespace GreetingService.Infrastructure.GreetingRepository
             return _memoryRepo;
         }
 
+        public async Task<IEnumerable<Greeting>> GetAsync(string from, string to)
+        {
+            if (string.IsNullOrWhiteSpace(from) && string.IsNullOrWhiteSpace(to))
+            {
+                return await GetAsync();
+            }
+
+            if (string.IsNullOrWhiteSpace(from) && !string.IsNullOrWhiteSpace(to))
+            {
+                return _memoryRepo.Where(g => g.To == to).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(from) && string.IsNullOrWhiteSpace(to))
+            {
+                return _memoryRepo.Where(g => g.From == from).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(from) && !string.IsNullOrWhiteSpace (to))
+            {
+                return _memoryRepo.Where(g => g.From == from && g.To == to).ToList();
+            }
+
+            return await GetAsync();
+
+        }
+
         public async Task UpdateAsync(Greeting greeting)
         {
             var existinggreeting = _memoryRepo.Where(g => g.id == greeting.id).FirstOrDefault();

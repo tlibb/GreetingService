@@ -23,7 +23,7 @@ namespace GreetingService.API.Function
             //    return new FileGreetingRepository(config["FileRepositoryFilePath"]);
             //});
 
-            //builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
+            builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
 
             //builder.Services.AddScoped<IUserService, AppSettingsUserService>();
 
@@ -51,11 +51,11 @@ namespace GreetingService.API.Function
 
             Log.Logger = logger;
 
-            builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
-            {
-                var config = c.GetService<IConfiguration>();
-                return new BlobGreetingRepository(config);
-            });
+            //builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
+            //{
+            //    var config = c.GetService<IConfiguration>();
+            //    return new BlobGreetingRepository(config);
+            //});
 
             //builder.Services.AddSingleton<ILoggerProvider, MyLoggerProvider>();
         }

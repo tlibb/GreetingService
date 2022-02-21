@@ -46,7 +46,9 @@ namespace GreetingService.API.Function
             {
                 try
                 {
-                    var responseresult = await _greetingRepository.GetAsync();
+                    var from = req.Query["from"];
+                    var to = req.Query["to"];
+                    var responseresult = await _greetingRepository.GetAsync(from, to);
                     return new OkObjectResult(responseresult);
                 }
                 catch (Exception ex)

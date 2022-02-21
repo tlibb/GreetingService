@@ -75,6 +75,72 @@ namespace GreetingService.Infrastructure.GreetingRepository
             return myGreetings;
         }
 
+        public async Task<IEnumerable<Greeting>> GetAsync(string from, string to)
+        {
+            
+
+            if (from == null && to == null)
+            {
+                return await GetAsync();
+            }
+
+            if (from == null && to != null)
+            {
+
+                var myBlobs = _container.GetBlobsByHierarchyAsync();
+                var myGreetings = new List<Greeting>();
+                await foreach (var b in myBlobs)
+                {
+                    var mySplittedBlobName = b.Blob.Name.Split("/");
+                    if (mySplittedBlobName[1].Equals(to))
+                    { 
+                        var blobClient = _container.GetBlobClient(b.Blob.Name);
+                        var mycontent = await blobClient.DownloadContentAsync();
+                        var myGreeting = mycontent.Value.Content.ToObjectFromJson<Greeting>();
+                        myGreetings.Add(myGreeting);
+                    }
+                }
+                return myGreetings;
+
+            }
+
+            if (from != null && to == null)
+            {
+                var myBlobs = _container.GetBlobsByHierarchyAsync(delimiter: "/", prefix: $"{from}/");
+                var myGreetings = new List<Greeting>();
+                await foreach (var b in myBlobs)
+                {
+                    var mySubBlobs = _container.GetBlobsByHierarchyAsync(delimiter: "/", prefix: $"{b.Prefix}");
+                    await foreach (var b2 in mySubBlobs)
+                    {
+                        var blobClient = _container.GetBlobClient(b2.Blob.Name);
+                        var mycontent = await blobClient.DownloadContentAsync();
+                        var myGreeting = mycontent.Value.Content.ToObjectFromJson<Greeting>();
+                        myGreetings.Add(myGreeting);
+                    }
+                }
+                
+                return myGreetings;
+            }
+
+            if (from != null && to != null)
+            {
+                var myBlobs = _container.GetBlobsByHierarchyAsync(delimiter: "/", prefix: $"{from}/{to}/");
+                var myGreetings = new List<Greeting>();
+                await foreach (var b in myBlobs)
+                {
+                    var blobClient = _container.GetBlobClient(b.Blob.Name);
+                    var mycontent = await blobClient.DownloadContentAsync();
+                    var myGreeting = mycontent.Value.Content.ToObjectFromJson<Greeting>();
+                    myGreetings.Add(myGreeting);
+                }
+
+                return myGreetings;
+            }
+
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateAsync(Greeting greeting)
         {
             throw new NotImplementedException();

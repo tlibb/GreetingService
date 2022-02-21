@@ -39,6 +39,7 @@ namespace GreetingService.API.Function
 
             Guid.TryParse(id, out Guid parsedId);
             //question can we do this in one line?????
+            
             var responseresult = await _greetingRepository.GetAsync(parsedId);
 
             return new OkObjectResult(responseresult);
