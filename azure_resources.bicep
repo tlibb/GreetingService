@@ -7,6 +7,9 @@ var hostingPlanName = 'BicepNorthEuropePlan'
 var appInsightsName = 'BicepFunctionInsights'
 var functionAppName = 'ANewGreetingService'
 
+param logintoazuresql string
+param passwordtoazuresql string
+
 // targetScope = 'subscription'
 
 // resource rg 'Microsoft.Resources/resourceGroups@2021-01-01' = {
@@ -58,6 +61,38 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2020-10-01' = {
   }
 }
 
+resource sqlserver 'Microsoft.Sql/servers@2019-06-01-preview' = {
+  name: 'greeting-sql-dev-tine'
+  location: 'westeurope'
+  properties: {
+    administratorLogin: logintoazuresql
+    administratorLoginPassword: passwordtoazuresql // DON'T DO THIS - EVER
+    version: '12.0'
+  }
+}
+
+resource sqldatabase 'Microsoft.Sql/servers/databases@2019-06-01-preview'={
+  parent: sqlserver
+  name: 'greering-sqldb-dev'
+  location: 'westeurope' 
+  sku: {
+    name: 'Basic'
+    tier: 'Basic'
+    capacity: 5
+  }  
+  properties: {    
+    collation: 'SQL_Latin1_General_CP1_CI_AS'
+    maxSizeBytes: 2147483648
+    catalogCollation: 'SQL_Latin1_General_CP1_CI_AS'
+    zoneRedundant: false
+    readScale: 'Disabled'
+    //requestedBackupStorageRedundancy: 'Local'
+    //isLedgerOn: false
+  }
+}
+ 
+
+
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   name: functionAppName
   location: location
@@ -91,7 +126,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           name: 'LoggingStorageAccount'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
-          
+        }
+        {
+          name: 'GreetingDbConnectionString'
+          value: 'Server=tcp:${reference(sqlserver.id).fullyQualifiedDomainName},1433;Initial Catalog=${sqldatabase};Persist Security Info=False;User ID=${sqlAdminUser};Password=\'${sqlAdminPassword}\';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
@@ -99,10 +137,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
     }
   }
 
-  dependsOn: [
-    appInsights
-    hostingPlan
-    storageAccount
-  ]
+  
 }
 

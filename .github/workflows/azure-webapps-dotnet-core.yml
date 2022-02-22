@@ -88,7 +88,11 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az group create -l 'northeurope' -n 'bicepstoragetinedev'
-            az deployment group create --resource-group 'bicepstoragetinedev' --template-file azure_resources.bicep 
+            az deployment group create \
+              --resource-group 'bicepstoragetinedev' \
+              --template-file azure_resources.bicep \
+              --parameters sqlAdminUser=${{ secrets.sqlAdminUsers }} sqlAdminPassword=${{ secrets.sqlAdminPassword }}
+              
 
   deploy:
     runs-on: ubuntu-latest
