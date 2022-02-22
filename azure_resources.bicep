@@ -65,8 +65,8 @@ resource sqlserver 'Microsoft.Sql/servers@2019-06-01-preview' = {
   name: 'greeting-sql-dev-tine'
   location: 'westeurope'
   properties: {
-    administratorLogin: logintoazuresql
-    administratorLoginPassword: passwordtoazuresql // DON'T DO THIS - EVER
+    administratorLogin: sqlAdminUser
+    administratorLoginPassword: sqlAdminPassword // DON'T DO THIS - EVER
     version: '12.0'
   }
 }
