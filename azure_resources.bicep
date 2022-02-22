@@ -7,8 +7,8 @@ var hostingPlanName = 'BicepNorthEuropePlan'
 var appInsightsName = 'BicepFunctionInsights'
 var functionAppName = 'ANewGreetingService'
 
-param logintoazuresql string
-param passwordtoazuresql string
+param sqlAdminUser string
+param sqlAdminPassword string
 
 // targetScope = 'subscription'
 
