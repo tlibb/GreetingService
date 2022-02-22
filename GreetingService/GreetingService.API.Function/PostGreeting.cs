@@ -46,9 +46,9 @@ namespace GreetingService.API.Function
                 await _greetingRepository.CreateAsync(mygreeting);
                 return new OkObjectResult("Posted");
             }
-            catch 
+            catch (Exception ex)
             {
-                return new NotFoundObjectResult("Didn't work. Check whether Guid is unique");
+                return new NotFoundObjectResult($"Didn't work. Check whether Guid is unique. {ex.Message} ");
             }
 
 

@@ -47,9 +47,9 @@ namespace GreetingService.API.Function
                 await _greetingRepository.UpdateAsync(mygreeting);
                 return new OkObjectResult("Updated");
             }
-            catch 
+            catch (Exception ex)
             {
-                return new NotFoundObjectResult("Didn't work");
+                return new NotFoundObjectResult($"Didn't work: {ex.Message}");
             }
 
 
