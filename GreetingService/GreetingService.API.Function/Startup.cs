@@ -6,6 +6,8 @@ using GreetingService.API.Function.Authentication;
 using Serilog;
 using GreetingService.Infrastructure.UserService;
 using GreetingService.Infrastructure.GreetingRepository;
+using GreetingService.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 [assembly: FunctionsStartup(typeof(GreetingService.API.Function.Startup))]
 
@@ -23,7 +25,7 @@ namespace GreetingService.API.Function
             //    return new FileGreetingRepository(config["FileRepositoryFilePath"]);
             //});
 
-            builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
+            //builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
 
             //builder.Services.AddScoped<IUserService, AppSettingsUserService>();
 
@@ -40,7 +42,7 @@ namespace GreetingService.API.Function
             {
                 return new BlobUserService(config);
             });
-           
+
 
             var connectionString = config["LoggingStorageAccount"];
 
@@ -50,6 +52,21 @@ namespace GreetingService.API.Function
                .CreateLogger();
 
             Log.Logger = logger;
+
+            builder.Services.AddScoped<IGreetingRepository, SqlGreetingRepository>();
+
+            builder.Services.AddDbContext<GreetingDbContext>(options =>
+            {
+                options.UseSqlServer(config["GreetingDbConnectionString"]);
+            });
+
+            //var context = builder.Services.BuildServiceProvider()
+            //           .GetService<GreetingDbContext>();
+
+            //builder.Services.AddScoped<IGreetingRepository, SqlGreetingRepository>(dbc =>
+            //{
+            //    return new SqlGreetingRepository(context);  
+            //});
 
             //builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
             //{

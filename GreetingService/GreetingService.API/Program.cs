@@ -1,5 +1,7 @@
 using GreetingService.Infrastructure;
 using GreetingService.Core.Entities;
+using GreetingService.Infrastructure.GreetingRepository;
+using GreetingService.Infrastructure.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 

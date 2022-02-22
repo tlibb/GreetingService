@@ -2,6 +2,7 @@ using Xunit;
 using GreetingService;
 using System.Linq;
 using System.Threading.Tasks;
+using GreetingService.Infrastructure.GreetingRepository;
 
 namespace GreetingService.Infrastructure.Test
 {
