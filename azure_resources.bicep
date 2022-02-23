@@ -84,7 +84,6 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2019-06-01-preview'={
 }
  
 
-
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   name: functionAppName
   location: location
