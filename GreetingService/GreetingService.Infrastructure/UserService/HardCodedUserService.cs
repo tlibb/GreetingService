@@ -20,7 +20,7 @@ namespace GreetingService.Infrastructure.UserService
             _userDataBase.Add("Ebba", "pw3");
             _userDataBase.Add("Alvin", "pw4");
         }
-        public bool IsValidUser(string username, string password)
+        public async Task<bool> IsValidUserAsync(string username, string password)
         {
             return (_userDataBase.ContainsKey(username) && _userDataBase[username] == password);
             

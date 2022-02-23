@@ -18,7 +18,7 @@ namespace GreetingService.API.Function.Authentication
             _userService = userService;
         }
 
-        public bool IsAuthorized(HttpRequest req)
+        public async Task<bool> IsAuthorizedAsync(HttpRequest req)
         {
             string authHeader = req.Headers["Authorization"];
 
@@ -32,10 +32,10 @@ namespace GreetingService.API.Function.Authentication
             var mypassword = usernamePassword.Substring(seperatorIndex + 1);
             
 
-            return _userService.IsValidUser(myusername, mypassword);
+            return await _userService.IsValidUserAsync(myusername, mypassword);
             
         }
 
-        
+       
     }
 }

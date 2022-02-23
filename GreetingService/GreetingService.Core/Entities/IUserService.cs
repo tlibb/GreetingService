@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GreetingService.Core.Entities
 {
     public interface IUserService
-    {
-        public bool IsValidUser(string username, string password);
+    { 
+        public Task<bool> IsValidUserAsync(string username, string password);
     }
 }
