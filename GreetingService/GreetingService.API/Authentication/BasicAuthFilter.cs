@@ -21,7 +21,7 @@ namespace GreetingService.API.Authentication
             }
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace GreetingService.API.Authentication
                                             .Split(':', 2);
                         if (credentials.Length == 2)
                         {
-                            if (IsAuthorized(context, credentials[0], credentials[1]))
+                            if (await IsAuthorizedAsync(context, credentials[0], credentials[1]))
                             {
                                 return;
                             }
@@ -52,10 +52,10 @@ namespace GreetingService.API.Authentication
             }
         }
 
-        public bool IsAuthorized(AuthorizationFilterContext context, string username, string password)
+        public async Task<bool> IsAuthorizedAsync(AuthorizationFilterContext context, string username, string password)
         {
             var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-            return userService.IsValidUser(username, password);
+            return await userService.IsValidUserAsync(username, password);
         }
 
         private void ReturnUnauthorizedResult(AuthorizationFilterContext context)
@@ -63,6 +63,11 @@ namespace GreetingService.API.Authentication
             // Return 401 and a basic authentication challenge (causes browser to show login dialog)
             context.HttpContext.Response.Headers["WWW-Authenticate"] = $"Basic realm=\"{_realm}\"";
             context.Result = new UnauthorizedResult();
+        }
+
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

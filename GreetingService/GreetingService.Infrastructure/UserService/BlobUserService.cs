@@ -32,7 +32,7 @@ namespace GreetingService.Infrastructure.UserService
             }
         }
 
-        public bool IsValidUser(string username, string password)
+        public async Task<bool> IsValidUserAsync(string username, string password)
         {
             try
             {

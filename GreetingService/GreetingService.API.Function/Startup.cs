@@ -38,10 +38,12 @@ namespace GreetingService.API.Function
 
             IConfiguration config = builder.GetContext().Configuration;
 
-            builder.Services.AddScoped<IUserService, BlobUserService>(c =>
-            {
-                return new BlobUserService(config);
-            });
+            //builder.Services.AddScoped<IUserService, BlobUserService>(c =>
+            //{
+            //    return new BlobUserService(config);
+            //});
+
+            builder.Services.AddScoped<IUserService, SqlUserService>();
 
 
             var connectionString = config["LoggingStorageAccount"];

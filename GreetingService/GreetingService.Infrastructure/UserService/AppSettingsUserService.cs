@@ -11,7 +11,7 @@ namespace GreetingService.Infrastructure.UserService
             _config = config;
         }
 
-        public bool IsValidUser(string username, string password)
+        public async Task<bool> IsValidUserAsync(string username, string password)
         {
             //this works with hardcoded username and password in appsettings.json
             return (_config["MyUserName"] == username && _config["MyPassWord"] == password);

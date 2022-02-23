@@ -42,7 +42,7 @@ namespace GreetingService.API.Function
 
             //return new OkObjectResult(_greetingRepository.Get());
 
-            if (_auth.IsAuthorized(req))
+            if (await _auth.IsAuthorizedAsync(req))
             {
                 try
                 {
