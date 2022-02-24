@@ -54,5 +54,35 @@ namespace GreetingService.Infrastructure.UserService
             return false;
 
         }
+
+        public Task<User> GetUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

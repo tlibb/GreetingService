@@ -20,10 +20,41 @@ namespace GreetingService.Infrastructure.UserService
             _userDataBase.Add("Ebba", "pw3");
             _userDataBase.Add("Alvin", "pw4");
         }
+
+        public Task CreateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> IsValidUserAsync(string username, string password)
         {
             return (_userDataBase.ContainsKey(username) && _userDataBase[username] == password);
             
+        }
+
+        public Task UpdateUserAsync(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
