@@ -116,7 +116,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         }
         {
           name: 'LoggingStorageAccount'
-          value: 'DefaultEndpointsProtocol=https;AccountName=tinesblobstorage;AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value};EndpointSuffix=core.windows.net'
+          value: 'DefaultEndpointsProtocol=https;AccountName=tinesblobstorage;AccountKey=${listKeys(createStorage.id, createStorage.apiVersion).keys[0].value};EndpointSuffix=core.windows.net'
         }
         {
           name: 'GreetingDbConnectionString'
