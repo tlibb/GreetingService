@@ -80,5 +80,17 @@ namespace GreetingService.Infrastructure.GreetingRepository
             await _greetingdbcontext.SaveChangesAsync();
 
         }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var gg = await _greetingdbcontext.Greetings.Where(g => g.id == id).FirstOrDefaultAsync();
+            if (gg != null)
+            {
+                _greetingdbcontext.Remove(gg);
+                await _greetingdbcontext.SaveChangesAsync();
+            }
+            else throw new Exception("Id not found");
+            
+        }
     }
 }

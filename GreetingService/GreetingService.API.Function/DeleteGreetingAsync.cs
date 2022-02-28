@@ -15,35 +15,33 @@ using Newtonsoft.Json;
 
 namespace GreetingService.API.Function
 {
-    public class UpdateUserAsync
+    public class DeleteGreetingAsync
     {
-        private readonly ILogger<UpdateUserAsync> _logger;
-        private readonly IUserService _userservice;
+        private readonly ILogger<DeleteGreetingAsync> _logger;
 
-        public UpdateUserAsync(ILogger<UpdateUserAsync> log, IUserService userservice)
+        private readonly IGreetingRepository _greetingRepository;
+
+        public DeleteGreetingAsync(ILogger<DeleteGreetingAsync> log, IGreetingRepository greetingRepository)
         {
             _logger = log;
-            _userservice = userservice;
+            _greetingRepository = greetingRepository;
         }
 
-        [FunctionName("UpdateUserAsync")]
+        [FunctionName("DeleteGreetingAsync")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "name" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **Name** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "user")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "greeting/{id}")] HttpRequest req, string id)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var content = await new StreamReader(req.Body).ReadToEndAsync();
-            
-
             try
             {
-                var myUser = JsonConvert.DeserializeObject<User>(content);
-                await _userservice.UpdateUserAsync(myUser);
-                return new OkObjectResult("Updated user");
+                Guid.TryParse(id, out Guid parsedId);
+                await _greetingRepository.DeleteAsync(parsedId);
+                return new OkObjectResult("Deleted Greeting");
             }
             catch (Exception ex)
             {

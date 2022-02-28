@@ -44,7 +44,7 @@ namespace GreetingService.API.Function
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult($"Error. This user might have greetings in the table. {ex.Message}");
             }
 
             

@@ -38,17 +38,18 @@ namespace GreetingService.API.Function
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
+            
 
 
             try
             {
+                Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
                 await _greetingRepository.CreateAsync(mygreeting);
                 return new OkObjectResult("Posted");
             }
             catch (Exception ex)
             {
-                return new NotFoundObjectResult($"Didn't work. Check whether Guid is unique. {ex.Message} ");
+                return new NotFoundObjectResult($"Didn't work. {ex.InnerException.Message} ");
             }
 
 

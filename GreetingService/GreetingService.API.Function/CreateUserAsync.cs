@@ -38,16 +38,15 @@ namespace GreetingService.API.Function
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            var myUser = JsonConvert.DeserializeObject<User>(content);
-
             try
             {
+                var myUser = JsonConvert.DeserializeObject<User>(content);
                 _userservice.CreateUserAsync(myUser);
                 return new OkObjectResult("User created");
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult(ex.InnerException.Message);
             }
 
             
