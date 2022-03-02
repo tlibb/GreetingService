@@ -11,6 +11,31 @@ namespace GreetingService.Infrastructure.UserService
             _config = config;
         }
 
+        public Task CreateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> IsValidUserAsync(string username, string password)
         {
             //this works with hardcoded username and password in appsettings.json
@@ -23,6 +48,11 @@ namespace GreetingService.Infrastructure.UserService
             //    return storedPassword == password;
 
             //return false;
+        }
+
+        public Task UpdateUserAsync(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

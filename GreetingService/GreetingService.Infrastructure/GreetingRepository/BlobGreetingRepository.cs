@@ -38,6 +38,11 @@ namespace GreetingService.Infrastructure.GreetingRepository
 
         }
 
+        public Task DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Greeting> GetAsync(Guid id)
         {
             var myBlobs = _container.GetBlobsAsync();
