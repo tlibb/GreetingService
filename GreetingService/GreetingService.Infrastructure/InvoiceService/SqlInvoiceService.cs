@@ -67,7 +67,9 @@ namespace GreetingService.Infrastructure.InvoiceService
 
         public async Task<Invoice> GetInvoiceAsync(int year, int month, string email)
         {
-            var myInvoice = await _greetingdbcontext.Invoices.Where(i => i.Year == year && i.Month == month && i.User.Email == email).FirstOrDefaultAsync();
+            var myInvoice = await _greetingdbcontext.Invoices.Include(i => i.Greetings)
+                                                             .Include(i => i.User)
+                                                             .Where(i => i.Year == year && i.Month == month && i.User.Email == email).FirstOrDefaultAsync();
             if (myInvoice == null)
             {
                 throw new Exception("Nu such invoice");
@@ -78,7 +80,10 @@ namespace GreetingService.Infrastructure.InvoiceService
         public async Task<IEnumerable<Invoice>> GetInvoicesAsync(int year, int month)
         {
             
-            var myInvoices = await _greetingdbcontext.Invoices.Where(i => i.Year == year && i.Month == month).ToListAsync();
+            var myInvoices = await _greetingdbcontext.Invoices.Include(i => i.Greetings)
+                                                              .Include(i => i.User)
+                                                              .Where(i => i.Year == year && i.Month == month).ToListAsync();
+
             if (myInvoices == null)
             {
                 throw new Exception("Nu such invoices");
