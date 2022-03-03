@@ -62,6 +62,8 @@ namespace GreetingService.API.Function
                 options.UseSqlServer(config["GreetingDbConnectionString"]);
             });
 
+
+
             //var context = builder.Services.BuildServiceProvider()
             //           .GetService<GreetingDbContext>();
 
