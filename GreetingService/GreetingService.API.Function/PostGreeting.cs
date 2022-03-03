@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using GreetingService.Core.Entities;
 using System;
+using GreetingService.API.Function.Authentication;
 
 namespace GreetingService.API.Function
 {
@@ -21,10 +22,13 @@ namespace GreetingService.API.Function
 
         private readonly IGreetingRepository _greetingRepository;
 
-        public PostGreeting(ILogger<PostGreeting> log, IGreetingRepository greetingRepository)
+        private readonly IAuthHandler _auth;
+
+        public PostGreeting(ILogger<PostGreeting> log, IGreetingRepository greetingRepository, IAuthHandler auth)
         {
             _logger = log;
             _greetingRepository = greetingRepository;
+            _auth = auth;
         }
 
         [FunctionName("PostGreeting")]
@@ -32,25 +36,41 @@ namespace GreetingService.API.Function
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **Name** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "greeting")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.User, "post", Route = "greeting")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var content = await new StreamReader(req.Body).ReadToEndAsync();
-
+            Boolean mybool = false;
             try
             {
-                Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
-                await _greetingRepository.CreateAsync(mygreeting);
-                return new OkObjectResult("Posted");
+                mybool = await _auth.IsAuthorizedAsync(req);
             }
-            catch (Exception ex)
+            catch 
             {
-                return new NotFoundObjectResult($"Didn't work. {ex.InnerException.Message} ");
+                return new UnauthorizedResult();
             }
 
+            if (mybool)            
+            {
 
-           
+                var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+                try
+                {
+                    Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
+                    await _greetingRepository.CreateAsync(mygreeting);
+                    return new OkObjectResult("Posted");
+                }
+                catch (Exception ex)
+                {
+                    return new NotFoundObjectResult($"Didn't work. {ex.InnerException.Message} ");
+                }
+            }
+            return new NotFoundObjectResult($"Didn't work.");
+
+
+
+
         }
     }
 }
