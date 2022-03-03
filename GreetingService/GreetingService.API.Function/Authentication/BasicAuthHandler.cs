@@ -20,19 +20,27 @@ namespace GreetingService.API.Function.Authentication
 
         public async Task<bool> IsAuthorizedAsync(HttpRequest req)
         {
-            string authHeader = req.Headers["Authorization"];
+            try
+            {
+                string authHeader = req.Headers["Authorization"];
 
-            string encodedUsernamePassword = authHeader.Substring("Basic ".Length).Trim();
-            Encoding encoding = Encoding.GetEncoding("iso-8859-1");
-            string usernamePassword = encoding.GetString(Convert.FromBase64String(encodedUsernamePassword));
+                string encodedUsernamePassword = authHeader.Substring("Basic ".Length).Trim();
+                Encoding encoding = Encoding.GetEncoding("iso-8859-1");
+                string usernamePassword = encoding.GetString(Convert.FromBase64String(encodedUsernamePassword));
 
-            int seperatorIndex = usernamePassword.IndexOf(':');
+                int seperatorIndex = usernamePassword.IndexOf(':');
 
-            var myusername = usernamePassword.Substring(0, seperatorIndex);
-            var mypassword = usernamePassword.Substring(seperatorIndex + 1);
-            
+                var myusername = usernamePassword.Substring(0, seperatorIndex);
+                var mypassword = usernamePassword.Substring(seperatorIndex + 1);
 
-            return await _userService.IsValidUserAsync(myusername, mypassword);
+
+                return await _userService.IsValidUserAsync(myusername, mypassword);
+            }
+            catch
+            {
+
+                throw new UnauthorizedAccessException();
+            }
             
         }
 
