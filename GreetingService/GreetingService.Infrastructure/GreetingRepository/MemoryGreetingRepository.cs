@@ -21,6 +21,11 @@ namespace GreetingService.Infrastructure.GreetingRepository
             _memoryRepo.Add(greeting);
         }
 
+        public Task DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Greeting> GetAsync(Guid id)
         {
             var myGreeting = from g in _memoryRepo
