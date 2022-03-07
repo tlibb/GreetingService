@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using GreetingService.API.Function.Authentication;
 using GreetingService.Core.Entities;
 using GreetingService.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -21,12 +22,14 @@ namespace GreetingService.API.Function
         private readonly ILogger<GetInvoiceAsync> _logger;
         private readonly IInvoiceService _invoiceService;
         private readonly GreetingDbContext _greetingdbcontext;
+        private readonly IAuthHandler _auth;
         
-        public GetInvoicesAsync(ILogger<GetInvoiceAsync> log, IInvoiceService invoiceService, GreetingDbContext greetingDbContext)
+        public GetInvoicesAsync(ILogger<GetInvoiceAsync> log, IInvoiceService invoiceService, GreetingDbContext greetingDbContext, IAuthHandler auth)
         {
             _logger = log;
             _invoiceService = invoiceService;
             _greetingdbcontext = greetingDbContext;
+            _auth = auth;
         }
 
         [FunctionName("GetInvoicesAsync")]
@@ -35,32 +38,28 @@ namespace GreetingService.API.Function
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **Name** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "invoice/{year}/{month}")] HttpRequest req, string year, string month)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invoice/{year}/{month}")] HttpRequest req, string year, string month)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             int.TryParse(year, out int myYear);
             int.TryParse(month, out int myMonth);
 
-            try
+            if (await _auth.IsAuthorizedAsync(req))
             {
-                var myInvoices = await _invoiceService.GetInvoicesAsync(myYear, myMonth);
-                return new OkObjectResult(myInvoices);
+                try
+                {
+                    var myInvoices = await _invoiceService.GetInvoicesAsync(myYear, myMonth);
+                    return new OkObjectResult(myInvoices);
+                }
+                catch (Exception ex)
+                {
+                    return new BadRequestObjectResult(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(ex);
-            }
-                
+            else return new UnauthorizedResult();
 
-
-
-
-
-
-
-
-            return new OkObjectResult("Ok");
+            //return new OkObjectResult("Ok");
         }
     }
 }
