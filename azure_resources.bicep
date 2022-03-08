@@ -104,7 +104,7 @@ resource topic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
   }
 }
 
-resource subscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+resource mysubscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
   name: 'greeting_create'
   parent: topic
   properties: {
@@ -118,7 +118,7 @@ resource subscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021
 
 resource rule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
   name: 'subject'
-  parent: subscription
+  parent: mysubscription
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
