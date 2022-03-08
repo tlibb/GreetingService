@@ -24,11 +24,14 @@ namespace GreetingService.API.Function
 
         private readonly IAuthHandler _auth;
 
-        public PostGreeting(ILogger<PostGreeting> log, IGreetingRepository greetingRepository, IAuthHandler auth)
+        private readonly IMessagingService _messagingservice;
+
+        public PostGreeting(ILogger<PostGreeting> log, IGreetingRepository greetingRepository, IAuthHandler auth, IMessagingService messagingservice)
         {
             _logger = log;
             _greetingRepository = greetingRepository;
             _auth = auth;
+            _messagingservice = messagingservice;
         }
 
         [FunctionName("PostGreeting")]
@@ -58,8 +61,12 @@ namespace GreetingService.API.Function
                 try
                 {
                     Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
-                    await _greetingRepository.CreateAsync(mygreeting);
-                    return new OkObjectResult("Posted");
+                    //await _greetingRepository.CreateAsync(mygreeting);
+
+                    //send it to servicebus instead of inserting it in the database directly
+                    await _messagingservice.SendAsync(mygreeting, MessageSubject.NewGreeting);
+
+                    return new OkObjectResult("Sent to be Posted");
                 }
                 catch (Exception ex)
                 {
