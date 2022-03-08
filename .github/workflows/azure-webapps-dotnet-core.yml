@@ -91,7 +91,7 @@ jobs:
             az deployment group create \
               --resource-group 'bicepstoragetinedev' \
               --template-file azure_resources.bicep \
-              --parameters sqlAdminUser=${{ secrets.sqlAdminUser }} sqlAdminPassword=${{ secrets.sqlAdminPassword }}
+              --parameters sqlAdminUser=${{ secrets.sqlAdminUser }} sqlAdminPassword=${{ secrets.sqlAdminPassword }} ServiceBusConnectionKey=${{ secrets.ServiceBusConnectionKey }}
               
 
   deploy:

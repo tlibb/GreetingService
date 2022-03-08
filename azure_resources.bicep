@@ -9,6 +9,7 @@ var functionAppName = 'ANewGreetingService'
 
 param sqlAdminUser string
 param sqlAdminPassword string
+param ServiceBusConnectionKey string
 
 // targetScope = 'subscription'
 
@@ -82,6 +83,49 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2019-06-01-preview'={
     capacity: 5
   } 
 }
+
+resource servicebus 'Microsoft.ServiceBus/namespaces@2021-06-01-preview' = {
+  name: 'tine-sb-dev'
+  location: 'westeurope'
+  sku: {
+    name: 'Standard'
+    tier: 'Standard'
+  }
+}
+
+resource topic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
+  name: 'main'
+  parent: servicebus
+  properties: {
+    defaultMessageTimeToLive: 'P14D' //ISO 8601
+    status: 'Active'
+  }
+}
+
+resource subscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_create'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource rule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'subject'
+  parent: subscription
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      properties: {
+        'label/subect':'NewGreeting'
+      }
+    }
+  }
+}
  
 
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
@@ -121,6 +165,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           name: 'GreetingDbConnectionString'
           value: 'Server=tcp:${reference(sqlserver.id).fullyQualifiedDomainName},1433;Initial Catalog=${sqldatabase.name};Persist Security Info=False;User ID=${sqlAdminUser};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+        }
+        {
+          name: 'ServiceBusConnectionString'
+          value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
