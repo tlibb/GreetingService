@@ -31,14 +31,9 @@ namespace GreetingService.Infrastructure.MessageService
 
             encodedMessage.Subject = subject.ToString();
 
-
-
             await _sender.SendMessageAsync(encodedMessage);
 
-            //ServiceBusReceivedMessage receivedMessage = await _receiver.ReceiveMessageAsync();
-
-            //string body = receivedMessage.Body.ToString();
-            //Console.WriteLine(body);
+            
         }
 
     }

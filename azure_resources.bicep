@@ -69,7 +69,7 @@ resource sqlserver 'Microsoft.Sql/servers@2019-06-01-preview' = {
   location: 'westeurope'
   properties: {
     administratorLogin: sqlAdminUser
-    administratorLoginPassword: sqlAdminPassword // DON'T DO THIS - EVER
+    administratorLoginPassword: sqlAdminPassword 
     version: '12.0'
   }
 }
@@ -104,7 +104,7 @@ resource topic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
   }
 }
 
-resource mysubscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+resource greeting_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
   name: 'greeting_create'
   parent: topic
   properties: {
@@ -116,14 +116,89 @@ resource mysubscription 'Microsoft.ServiceBus/namespaces/topics/subscriptions@20
   }
 }
 
-resource rule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
-  name: 'subject'
-  parent: mysubscription
+resource NewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'NewGreeting'
+  parent: greeting_create
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
         'label/subect':'NewGreeting'
+      }
+    }
+  }
+}
+
+resource greeting_update 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_update'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource PutGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'PutGreeting'
+  parent: greeting_update
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      properties: {
+        'label/subect':'PutGreeting'
+      }
+    }
+  }
+}
+
+resource user_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'user_create'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource PostUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'PostUser'
+  parent: greeting_update
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      properties: {
+        'label/subect':'PostUser'
+      }
+    }
+  }
+}
+
+resource user_update 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'user_update'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'PutUser'
+  parent: greeting_update
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      properties: {
+        'label/subect':'PutUser'
       }
     }
   }

@@ -21,10 +21,13 @@ namespace GreetingService.API.Function
 
         private readonly IGreetingRepository _greetingRepository;
 
-        public PutGreeting(ILogger<PutGreeting> log, IGreetingRepository greetingRepository)
+        private readonly IMessagingService _messagingservice;
+
+        public PutGreeting(ILogger<PutGreeting> log, IGreetingRepository greetingRepository, IMessagingService messagingservice)
         {
             _logger = log;
             _greetingRepository = greetingRepository;
+            _messagingservice = messagingservice;
         }
 
         [FunctionName("PutGreeting")]
@@ -38,14 +41,16 @@ namespace GreetingService.API.Function
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
+            
                 
 
             //some comment
             try
             {
-                await _greetingRepository.UpdateAsync(mygreeting);
-                return new OkObjectResult("Updated");
+                Greeting mygreeting = JsonConvert.DeserializeObject<Greeting>(content);
+                await _messagingservice.SendAsync(mygreeting, MessageSubject.PutGreeting);
+                //await _greetingRepository.UpdateAsync(mygreeting);
+                return new OkObjectResult("Sent to be Updated");
             }
             catch (Exception ex)
             {
