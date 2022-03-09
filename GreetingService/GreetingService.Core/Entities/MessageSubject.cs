@@ -8,6 +8,7 @@ namespace GreetingService.Core.Entities
 {
     public enum MessageSubject
     {
-        NewGreeting
+        NewGreeting=0,
+        PutGreeting=1,
     }
 }

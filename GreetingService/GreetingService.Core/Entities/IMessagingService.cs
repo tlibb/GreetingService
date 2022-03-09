@@ -9,6 +9,6 @@ namespace GreetingService.Core.Entities
     public interface IMessagingService
     {
         Task SendAsync<T>(T message, MessageSubject subject);
-       
+      
     }
 }

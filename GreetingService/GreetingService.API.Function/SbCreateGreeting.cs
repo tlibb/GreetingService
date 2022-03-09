@@ -30,7 +30,7 @@ namespace GreetingService.API.Function
 
             await _greetingrepository.CreateAsync(myGreeting);
 
-            //complete the message
+            //complete the message? Not necessary I think
         }
     }
 }
