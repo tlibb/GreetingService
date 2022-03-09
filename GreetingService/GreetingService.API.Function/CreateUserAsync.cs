@@ -19,11 +19,13 @@ namespace GreetingService.API.Function
     {
         private readonly ILogger<CreateUserAsync> _logger;
         private readonly IUserService _userservice;
+        private readonly IMessagingService _messagingservice;
 
-        public CreateUserAsync(ILogger<CreateUserAsync> log, IUserService userservice)
+        public CreateUserAsync(ILogger<CreateUserAsync> log, IUserService userservice, IMessagingService messagingservice)
         {
             _logger = log;
             _userservice = userservice;
+            _messagingservice = messagingservice;
         }
 
         [FunctionName("CreateUserAsync")]
@@ -41,8 +43,9 @@ namespace GreetingService.API.Function
             try
             {
                 var myUser = JsonConvert.DeserializeObject<User>(content);
-                _userservice.CreateUserAsync(myUser);
-                return new OkObjectResult("User created");
+                //_userservice.CreateUserAsync(myUser);
+                await _messagingservice.SendAsync(myUser, MessageSubject.NewUser);
+                return new OkObjectResult("User sent to be created");
             }
             catch (Exception ex)
             {

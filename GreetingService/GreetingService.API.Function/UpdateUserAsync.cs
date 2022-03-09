@@ -19,11 +19,13 @@ namespace GreetingService.API.Function
     {
         private readonly ILogger<UpdateUserAsync> _logger;
         private readonly IUserService _userservice;
+        private readonly IMessagingService _messagingservice;
 
-        public UpdateUserAsync(ILogger<UpdateUserAsync> log, IUserService userservice)
+        public UpdateUserAsync(ILogger<UpdateUserAsync> log, IUserService userservice, IMessagingService messagingservice)
         {
             _logger = log;
             _userservice = userservice;
+            _messagingservice = messagingservice;
         }
 
         [FunctionName("UpdateUserAsync")]
@@ -42,8 +44,10 @@ namespace GreetingService.API.Function
             try
             {
                 var myUser = JsonConvert.DeserializeObject<User>(content);
-                await _userservice.UpdateUserAsync(myUser);
-                return new OkObjectResult("Updated user");
+
+                //await _userservice.UpdateUserAsync(myUser);
+                await _messagingservice.SendAsync(myUser, MessageSubject.PutUser);
+                return new OkObjectResult("Sent to update user");
             }
             catch (Exception ex)
             {
