@@ -10,5 +10,8 @@ namespace GreetingService.Core.Entities
     {
         NewGreeting=0,
         PutGreeting=1,
+        NewUser=2,
+        PutUser=3,
+
     }
 }
