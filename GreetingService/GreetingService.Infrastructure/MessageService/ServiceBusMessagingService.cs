@@ -14,7 +14,7 @@ namespace GreetingService.Infrastructure.MessageService
     public class ServiceBusMessagingService : IMessagingService
     {
         private readonly ServiceBusSender _sender;
-        private readonly ServiceBusReceiver _receiver;
+        private  readonly ServiceBusReceiver _receiver;
         public ServiceBusMessagingService(IConfiguration config)
         {
             string topicName = "main";
