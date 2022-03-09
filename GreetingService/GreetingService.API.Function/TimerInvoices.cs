@@ -30,7 +30,7 @@ namespace GreetingService.API.Function
 
         [FunctionName("TimerInvoices")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
-        public async Task RunAsync([TimerTrigger("*/30 * * * * *")]TimerInfo myTimer)
+        public async Task RunAsync([TimerTrigger("0 0 0 * * *")]TimerInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 

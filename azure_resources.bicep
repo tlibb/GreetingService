@@ -203,6 +203,33 @@ resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@202
     }
   }
 }
+
+
+
+resource greeting_compute_billing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_compute_billing'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource AtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'AtNewGreeting'
+  parent: greeting_compute_billing
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      properties: {
+        'label/subect':'NewGreeting'
+      }
+    }
+  }
+}
  
 
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
