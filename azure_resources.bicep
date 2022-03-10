@@ -123,7 +123,7 @@ resource NewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
-        'label/subect':'NewGreeting'
+        'label/subject':'NewGreeting'
       }
     }
   }
@@ -148,7 +148,7 @@ resource PutGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
-        'label/subect':'PutGreeting'
+        'label/subject':'PutGreeting'
       }
     }
   }
@@ -173,7 +173,7 @@ resource PostUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@20
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
-        'label/subect':'PostUser'
+        'label/subject':'NewUser'
       }
     }
   }
@@ -198,7 +198,7 @@ resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@202
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
-        'label/subect':'PutUser'
+        'label/subject':'PutUser'
       }
     }
   }
@@ -225,7 +225,7 @@ resource AtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rul
     filterType: 'CorrelationFilter'
     correlationFilter: {
       properties: {
-        'label/subect':'NewGreeting'
+        'label/subject':'NewGreeting'
       }
     }
   }

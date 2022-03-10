@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace GreetingService.API.Function
 {
@@ -14,10 +15,12 @@ namespace GreetingService.API.Function
 
         private readonly IGreetingRepository _greetingrepository;
 
-        public SbCreateGreeting(ILogger<SbCreateGreeting> log, IGreetingRepository greetingRepository)
+        private readonly IConfiguration _config;
+        public SbCreateGreeting(ILogger<SbCreateGreeting> log, IGreetingRepository greetingRepository, IConfiguration config)
         {
             _logger = log;
             _greetingrepository = greetingRepository;
+            _config = config;
         }
 
         [FunctionName("SbCreateGreeting")]
@@ -28,7 +31,14 @@ namespace GreetingService.API.Function
             var myGreeting = JsonSerializer.Deserialize<Greeting>(mySbMsg);
 
 
-            await _greetingrepository.CreateAsync(myGreeting);
+            try
+            {
+                await _greetingrepository.CreateAsync(myGreeting);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
 
             //complete the message? Not necessary I think
         }
