@@ -122,9 +122,7 @@ resource NewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
-      properties: {
-        'label/subject':'NewGreeting'
-      }
+      'label': 'NewGreeting'
     }
   }
 }
