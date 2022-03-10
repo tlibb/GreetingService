@@ -9,6 +9,7 @@ var functionAppName = 'ANewGreetingService'
 
 param sqlAdminUser string
 param sqlAdminPassword string
+param ServiceBusConnectionKey string
 
 // targetScope = 'subscription'
 
@@ -23,6 +24,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   kind: 'StorageV2'
   sku: {
     name: 'Standard_LRS'
+#disable-next-line BCP073
     tier: 'Standard'
   }
 }
@@ -33,6 +35,7 @@ resource createStorage 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   kind: 'StorageV2'
   sku: {
     name: 'Standard_LRS'
+#disable-next-line BCP073
     tier: 'Standard'
   }
 }
@@ -66,7 +69,7 @@ resource sqlserver 'Microsoft.Sql/servers@2019-06-01-preview' = {
   location: 'westeurope'
   properties: {
     administratorLogin: sqlAdminUser
-    administratorLoginPassword: sqlAdminPassword // DON'T DO THIS - EVER
+    administratorLoginPassword: sqlAdminPassword 
     version: '12.0'
   }
 }
@@ -81,6 +84,141 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2019-06-01-preview'={
     tier: 'Basic'
     capacity: 5
   } 
+}
+
+resource servicebus 'Microsoft.ServiceBus/namespaces@2021-06-01-preview' = {
+  name: 'tine-sb-dev'
+  location: 'westeurope'
+  sku: {
+    name: 'Standard'
+    tier: 'Standard'
+  }
+}
+
+resource topic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
+  name: 'main'
+  parent: servicebus
+  properties: {
+    defaultMessageTimeToLive: 'P14D' //ISO 8601
+    status: 'Active'
+  }
+}
+
+resource greeting_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_create'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource NewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'NewGreeting'
+  parent: greeting_create
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label': 'NewGreeting'
+    }
+  }
+}
+
+resource greeting_update 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_update'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource PutGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'PutGreeting'
+  parent: greeting_update
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label': 'PutGreeting'
+    }
+  }
+}
+
+resource user_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'user_create'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource NewUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'NewUser'
+  parent: user_create
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label':'NewUser'
+    }
+  }
+}
+
+resource user_update 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'user_update'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'PutUser'
+  parent: user_update
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label':'PutUser'
+    }
+  }
+}
+
+
+
+resource greeting_compute_billing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'greeting_compute_billing'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource BillingAtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'BillingAtNewGreeting'
+  parent: greeting_compute_billing
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label':'NewGreeting'
+    }
+  }
 }
  
 
@@ -121,6 +259,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           name: 'GreetingDbConnectionString'
           value: 'Server=tcp:${reference(sqlserver.id).fullyQualifiedDomainName},1433;Initial Catalog=${sqldatabase.name};Persist Security Info=False;User ID=${sqlAdminUser};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+        }
+        {
+          name: 'ServiceBusConnectionString'
+          value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
