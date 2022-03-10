@@ -168,7 +168,7 @@ resource user_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-
 
 resource PostUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
   name: 'PostUser'
-  parent: greeting_update
+  parent: user_create
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
@@ -193,7 +193,7 @@ resource user_update 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-
 
 resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
   name: 'PutUser'
-  parent: greeting_update
+  parent: user_update
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
