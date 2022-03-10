@@ -145,9 +145,7 @@ resource PutGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
-      properties: {
-        'label/subject':'PutGreeting'
-      }
+      'label': 'PutGreeting'
     }
   }
 }
@@ -164,15 +162,13 @@ resource user_create 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-
   }
 }
 
-resource PostUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
-  name: 'PostUser'
+resource NewUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'NewUser'
   parent: user_create
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
-      properties: {
-        'label/subject':'NewUser'
-      }
+      'label':'NewUser'
     }
   }
 }
@@ -195,9 +191,7 @@ resource PutUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@202
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
-      properties: {
-        'label/subject':'PutUser'
-      }
+      'label':'PutUser'
     }
   }
 }
@@ -216,15 +210,13 @@ resource greeting_compute_billing 'Microsoft.ServiceBus/namespaces/topics/subscr
   }
 }
 
-resource AtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
-  name: 'AtNewGreeting'
+resource BillingAtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'BillingAtNewGreeting'
   parent: greeting_compute_billing
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {
-      properties: {
-        'label/subject':'NewGreeting'
-      }
+      'label':'NewGreeting'
     }
   }
 }
