@@ -235,7 +235,7 @@ resource user_approval 'Microsoft.ServiceBus/namespaces/topics/subscriptions@202
 
 resource ApprovalAtNewUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
   name: 'ApprovalAtNewUser'
-  parent: greeting_compute_billing
+  parent: user_approval
   properties: {
     filterType: 'CorrelationFilter'
     correlationFilter: {

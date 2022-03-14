@@ -43,6 +43,7 @@ namespace GreetingService.API.Function
             try
             {
                 var myUser = JsonConvert.DeserializeObject<User>(content);
+                myUser.ApprovalStatus = User.ApprovalStatusType.Pending;
                 //_userservice.CreateUserAsync(myUser);
                 await _messagingservice.SendAsync(myUser, MessageSubject.NewUser);
                 return new OkObjectResult("User sent to be created");
