@@ -70,10 +70,6 @@ namespace GreetingService.Infrastructure.InvoiceService
             var myInvoice = await _greetingdbcontext.Invoices.Include(i => i.Greetings)
                                                              .Include(i => i.User)
                                                              .Where(i => i.Year == year && i.Month == month && i.User.Email == email).FirstOrDefaultAsync();
-            if (myInvoice == null)
-            {
-                throw new Exception("Nu such invoice");
-            }
             return myInvoice;
         }
 
