@@ -220,6 +220,30 @@ resource BillingAtNewGreeting 'Microsoft.ServiceBus/namespaces/topics/subscripti
     }
   }
 }
+
+resource user_approval 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2021-06-01-preview' = {
+  name: 'user_approval'
+  parent: topic
+  properties: {
+    deadLetteringOnMessageExpiration: false
+    defaultMessageTimeToLive: 'P14D'
+    lockDuration: 'PT30S'
+    maxDeliveryCount: 10
+    status: 'Active'
+  }
+}
+
+resource ApprovalAtNewUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2021-06-01-preview' = {
+  name: 'ApprovalAtNewUser'
+  parent: greeting_compute_billing
+  properties: {
+    filterType: 'CorrelationFilter'
+    correlationFilter: {
+      'label':'NewUser'
+    }
+  }
+}
+
  
 
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {

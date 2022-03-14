@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GreetingService.Core.Entities;
@@ -30,7 +31,9 @@ namespace GreetingService.API.Function
 
             var myGreeting = JsonSerializer.Deserialize<Greeting>(mySbMsg);
 
+           
             var myInvoice = await _invoiceservice.GetInvoiceAsync(DateTime.Now.Year, DateTime.Now.Month, myGreeting.From);
+            
 
             if (myInvoice != null)
             {
@@ -42,6 +45,9 @@ namespace GreetingService.API.Function
                 myInvoice.Month = DateTime.Now.Month;
                 myInvoice.Year = DateTime.Now.Year;
                 myInvoice.User = await _userservice.GetUserAsync(myGreeting.From);
+                var myList = new List<Greeting>();
+                myList.Add(myGreeting);
+                myInvoice.Greetings = myList;
                 await _invoiceservice.CreateOrUpdateInvoiceAsync(myInvoice);
             }    
         }
