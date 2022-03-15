@@ -21,7 +21,7 @@ namespace GreetingService.Core.Entities
 
         public ApprovalStatusType ApprovalStatus { get; set; } = ApprovalStatusType.Pending;
 
-        public string ApprovalStatusNote { get; set; }
+        public string ApprovalStatusNote { get; set; } = "No action yet";
 
         public string ApprovalCode { get; set; } = CreateApprovalCode();
 

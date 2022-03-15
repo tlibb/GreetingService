@@ -17,5 +17,9 @@ namespace GreetingService.Core.Entities
         public Task DeleteUserAsync(string email);
 
         public Task<IEnumerable<User>> GetAllUsersAsync();
+
+        public Task ApproveUserAsync(string approvalCode);
+
+        public Task RejectUserAsync(string approvalCode);
     }
 }

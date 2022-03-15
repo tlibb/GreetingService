@@ -14,10 +14,13 @@ namespace GreetingService.API.Function
 
         private readonly IUserService _userservice;
 
-        public SbCreateUser(ILogger<SbCreateUser> log, IUserService userservice)
+        private readonly IApprovalService _approval;
+
+        public SbCreateUser(ILogger<SbCreateUser> log, IUserService userservice, IApprovalService approval)
         {
             _logger = log;
             _userservice = userservice;
+            _approval = approval;
         }
 
         [FunctionName("SbCreateUser")]
@@ -27,7 +30,18 @@ namespace GreetingService.API.Function
 
             var myUser = JsonSerializer.Deserialize<User>(mySbMsg);
 
-            await _userservice.CreateUserAsync(myUser);
+            try
+            {
+                await _userservice.CreateUserAsync(myUser);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+            }
+            
+            await _approval.BeginUserApprovalAsync(myUser);
+
+           
 
         }
     }
