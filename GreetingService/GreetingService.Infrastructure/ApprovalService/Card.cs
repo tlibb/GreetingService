@@ -16,6 +16,7 @@ namespace GreetingService.Infrastructure.ApprovalService
             jsoncard = 
                "{\"@type\":\"MessageCard\"," +
                 "\"@context\":\"https://schema.org/extensions\"," +
+                "\"summary\":\"this is a summary\","+
                 "\"sections\":[{\"title\":\"**Pending approval** from Tine Libbrecht\"," +
                 "\"activityImage\":\"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png\"," +
                 "\"activityTitle\":\"Approve new user in GreetingService: \"," +
