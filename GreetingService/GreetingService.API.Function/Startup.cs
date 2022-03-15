@@ -10,6 +10,7 @@ using GreetingService.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using GreetingService.Infrastructure.InvoiceService;
 using GreetingService.Infrastructure.MessageService;
+using GreetingService.Infrastructure.ApprovalService;
 
 [assembly: FunctionsStartup(typeof(GreetingService.API.Function.Startup))]
 
@@ -71,6 +72,8 @@ namespace GreetingService.API.Function
             builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 
             builder.Services.AddSingleton<IMessagingService, ServiceBusMessagingService>();
+
+            builder.Services.AddScoped<IApprovalService, TeamsApprovalService>();
 
             //var context = builder.Services.BuildServiceProvider()
             //           .GetService<GreetingDbContext>();

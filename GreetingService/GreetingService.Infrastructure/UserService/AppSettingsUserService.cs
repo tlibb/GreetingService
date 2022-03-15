@@ -11,6 +11,11 @@ namespace GreetingService.Infrastructure.UserService
             _config = config;
         }
 
+        public Task ApproveUserAsync(string approvalCode)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task CreateUserAsync(User user)
         {
             throw new NotImplementedException();
@@ -48,6 +53,11 @@ namespace GreetingService.Infrastructure.UserService
             //    return storedPassword == password;
 
             //return false;
+        }
+
+        public Task RejectUserAsync(string approvalCode)
+        {
+            throw new NotImplementedException();
         }
 
         public Task UpdateUserAsync(User user)

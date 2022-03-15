@@ -1,0 +1,38 @@
+
+  {
+    "@type": "MessageCard",
+    "@context": "https://schema.org/extensions",
+    "sections": [
+      {
+        "title": "**Pending approval** from Tine Libbrecht",
+        "activityImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1024px-User_font_awesome.svg.png?20160212005950",
+        "activityTitle": "Approve new user in GreetingService: ",
+        "activitySubtitle": "First name and Last name",
+        "facts": [
+          {
+            "name": "Date submitted:",
+            "value": "06/27/2017, 2:44 PM"
+          },
+          {
+            "name": "Details:",
+            "value": "Please approve or reject the new user for the GreetingService"
+          }
+        ]
+      },
+      {
+        "potentialAction": [
+            "@type": "HttpPOST",
+            "name": "Approve",
+            "target": "http://..."
+          },
+          {
+            "@type": "HttpPOST",
+            "name": "Reject",
+            "target": "http://..."
+          }
+        ]
+      }
+    ]
+  }
+
+

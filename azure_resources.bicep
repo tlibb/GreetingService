@@ -10,7 +10,7 @@ var functionAppName = 'ANewGreetingService'
 param sqlAdminUser string
 param sqlAdminPassword string
 param ServiceBusConnectionKey string
-
+param WebhookUrl string
 // targetScope = 'subscription'
 
 // resource rg 'Microsoft.Resources/resourceGroups@2021-01-01' = {
@@ -287,6 +287,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           name: 'ServiceBusConnectionString'
           value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
+        }
+        {
+          name: 'WebhookUrl'
+          value: '${WebhookUrl}'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish

@@ -19,8 +19,12 @@ namespace GreetingService.Infrastructure.UserService
 
         public async Task CreateUserAsync(User user)
         {
-            await _greetingdbcontext.Users.AddAsync(user);
-            await _greetingdbcontext.SaveChangesAsync();
+            var myU = _greetingdbcontext.Users.Where(u => u == user).FirstOrDefault();
+            if (myU == null)
+            {
+                await _greetingdbcontext.Users.AddAsync(user);
+                await _greetingdbcontext.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteUserAsync(string email)
@@ -61,6 +65,8 @@ namespace GreetingService.Infrastructure.UserService
             myUser.LastName = user.LastName;
             myUser.Password = user.Password;
             myUser.Modified = DateTime.Now;
+            myUser.ApprovalStatus = user.ApprovalStatus;
+            myUser.ApprovalStatusNote = user.ApprovalStatusNote;
             await _greetingdbcontext.SaveChangesAsync();
         }
 
@@ -72,6 +78,27 @@ namespace GreetingService.Infrastructure.UserService
                 throw new Exception("No Users in database");
             }
             return myUsers;
+        }
+
+        public async Task ApproveUserAsync(string approvalCode)
+        {
+            User myUser = await _greetingdbcontext.Users.Where(u => u.ApprovalCode == approvalCode).FirstOrDefaultAsync();
+
+            myUser.ApprovalStatusNote = "This user is now approved";
+            myUser.ApprovalStatus = User.ApprovalStatusType.Approved;
+
+            await _greetingdbcontext.SaveChangesAsync();
+            
+        }
+
+        public async Task RejectUserAsync(string approvalCode)
+        {
+            User myUser = await _greetingdbcontext.Users.Where(u => u.ApprovalCode == approvalCode).FirstOrDefaultAsync();
+
+            myUser.ApprovalStatusNote = "This user is now rejected";
+            myUser.ApprovalStatus = User.ApprovalStatusType.Rejected;
+
+            await _greetingdbcontext.SaveChangesAsync(); 
         }
     }
 }

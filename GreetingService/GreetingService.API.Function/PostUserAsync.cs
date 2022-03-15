@@ -15,20 +15,20 @@ using Newtonsoft.Json;
 
 namespace GreetingService.API.Function
 {
-    public class CreateUserAsync
+    public class PostUserAsync
     {
-        private readonly ILogger<CreateUserAsync> _logger;
+        private readonly ILogger<PostUserAsync> _logger;
         private readonly IUserService _userservice;
         private readonly IMessagingService _messagingservice;
 
-        public CreateUserAsync(ILogger<CreateUserAsync> log, IUserService userservice, IMessagingService messagingservice)
+        public PostUserAsync(ILogger<PostUserAsync> log, IUserService userservice, IMessagingService messagingservice)
         {
             _logger = log;
             _userservice = userservice;
             _messagingservice = messagingservice;
         }
 
-        [FunctionName("CreateUserAsync")]
+        [FunctionName("PostUserAsync")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "name" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **Name** parameter")]
@@ -44,7 +44,6 @@ namespace GreetingService.API.Function
             {
                 var myUser = JsonConvert.DeserializeObject<User>(content);
                 myUser.ApprovalStatus = User.ApprovalStatusType.Pending;
-                //_userservice.CreateUserAsync(myUser);
                 await _messagingservice.SendAsync(myUser, MessageSubject.NewUser);
                 return new OkObjectResult("User sent to be created");
             }
