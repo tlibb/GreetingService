@@ -88,6 +88,11 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az group create -l 'northeurope' -n 'bicepstoragetinedev'
+            az keyvault create \
+              --name 'tinetestdevkv' \
+              --resource-group 'bicepstoragetinedev' \
+              --location 'northeurope' \
+              --enabled-for-template-deployment true
             az deployment group create \
               --resource-group 'bicepstoragetinedev' \
               --template-file azure_resources_withkeyvault.bicep \
