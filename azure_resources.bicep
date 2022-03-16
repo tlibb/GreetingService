@@ -1,4 +1,4 @@
-param location string = 'northeurope'
+param location string 
 
 // storage accounts must be between 3 and 24 characters in length and use numbers and lower-case letters only
 
@@ -7,10 +7,15 @@ var hostingPlanName = 'BicepNorthEuropePlan'
 var appInsightsName = 'BicepFunctionInsights'
 var functionAppName = 'ANewGreetingService'
 
+@secure()
 param sqlAdminUser string
+@secure()
 param sqlAdminPassword string
+@secure()
 param ServiceBusConnectionKey string
+@secure()
 param WebhookUrl string
+
 // targetScope = 'subscription'
 
 // resource rg 'Microsoft.Resources/resourceGroups@2021-01-01' = {
@@ -243,7 +248,6 @@ resource ApprovalAtNewUser 'Microsoft.ServiceBus/namespaces/topics/subscriptions
     }
   }
 }
-
  
 
 resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
@@ -290,7 +294,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         }
         {
           name: 'WebhookUrl'
-          value: '${WebhookUrl}'
+          value: WebhookUrl
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish

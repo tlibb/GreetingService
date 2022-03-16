@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationInsightsResourceId>/subscriptions/5bb1b2d9-ed37-4ee3-9053-56954eaa90c7/resourcegroups/tine-rg-dev/providers/Microsoft.Insights/components/GreetingServiceAPI</ApplicationInsightsResourceId>
     <UserSecretsId>f5c6f34f-24cf-4743-abfa-033082873c4b</UserSecretsId>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

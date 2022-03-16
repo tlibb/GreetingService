@@ -11,6 +11,16 @@ using Microsoft.EntityFrameworkCore;
 using GreetingService.Infrastructure.InvoiceService;
 using GreetingService.Infrastructure.MessageService;
 using GreetingService.Infrastructure.ApprovalService;
+using Azure.Identity;
+using System;
+using Microsoft.Extensions.Azure;
+using Azure.Messaging.ServiceBus;
+
+
+
+
+
+
 
 [assembly: FunctionsStartup(typeof(GreetingService.API.Function.Startup))]
 
@@ -22,29 +32,13 @@ namespace GreetingService.API.Function
         {
             builder.Services.AddHttpClient();
 
-            //builder.Services.AddScoped<IGreetingRepository, FileGreetingRepository>(c =>
-            //{
-            //    var config = c.GetService<IConfiguration>();
-            //    return new FileGreetingRepository(config["FileRepositoryFilePath"]);
-            //});
-
-            //builder.Services.AddSingleton<IGreetingRepository, MemoryGreetingRepository>();
-
-            //builder.Services.AddScoped<IUserService, AppSettingsUserService>();
-
-            
+            IConfiguration config = builder.GetContext().Configuration;
 
             builder.Services.AddScoped<IAuthHandler, BasicAuthHandler>();
 
             builder.Services.AddLogging(loggingBuilder =>
                 loggingBuilder.AddSerilog(dispose: true));
 
-            IConfiguration config = builder.GetContext().Configuration;
-
-            //builder.Services.AddScoped<IUserService, BlobUserService>(c =>
-            //{
-            //    return new BlobUserService(config);
-            //});
 
             builder.Services.AddScoped<IUserService, SqlUserService>();
 
@@ -75,21 +69,24 @@ namespace GreetingService.API.Function
 
             builder.Services.AddScoped<IApprovalService, TeamsApprovalService>();
 
-            //var context = builder.Services.BuildServiceProvider()
-            //           .GetService<GreetingDbContext>();
+           
 
-            //builder.Services.AddScoped<IGreetingRepository, SqlGreetingRepository>(dbc =>
-            //{
-            //    return new SqlGreetingRepository(context);  
-            //});
 
-            //builder.Services.AddScoped<IGreetingRepository, BlobGreetingRepository>(c =>
-            //{
-            //    var config = c.GetService<IConfiguration>();
-            //    return new BlobGreetingRepository(config);
-            //});
-
-            //builder.Services.AddSingleton<ILoggerProvider, MyLoggerProvider>();
         }
+
+        public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
+        {
+            builder.ConfigurationBuilder.AddAzureKeyVault(Environment.GetEnvironmentVariable("KeyVaultUri"));
+
+            
+             
+        }
+
     }
+
+       
+
+
+
+        
 }
