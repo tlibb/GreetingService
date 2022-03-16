@@ -19,7 +19,7 @@ namespace GreetingService.Infrastructure.ApprovalService
                 "\"summary\":\"this is a summary\","+
                 "\"sections\":[{\"title\":\"**Pending approval** from Tine Libbrecht\"," +
                 "\"activityImage\":\"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png\"," +
-                "\"activityTitle\":\"Approve new user in GreetingService: \"," +
+                $"\"activityTitle\":\"Approve new user in GreetingService: {user.Email}\"," +
                 $"\"activitySubtitle\":\"{user.FirstName} {user.LastName}\"," +
                 "\"facts\":[{" +
                 "\"name\":\"Date submitted:\"," +
@@ -29,10 +29,10 @@ namespace GreetingService.Infrastructure.ApprovalService
                 "{\"potentialAction\":[{" +
                 "\"@type\":\"HttpPOST\"," +
                 "\"name\":\"Approve\"," +
-                "\"target\":\"" + "http://localhost:7071/api/approve?approvalCode={user.ApprovalCode}" + "\"}," +
+                "\"target\":\"" + $"https://anewgreetingservice.azurewebsites.net/api/approve?approvalCode={user.ApprovalCode}" + "\"}," +
                 "{\"@type\":\"HttpPOST\"," +
                 "\"name\":\"Reject\"," +
-                "\"target\":\"http://localhost:7071/api/rejection?approvalCode={user.ApprovalCode}" + "\"}]}]}";
+                $"\"target\":\"https://anewgreetingservice.azurewebsites.net/api/rejection?approvalCode={user.ApprovalCode}" + "\"}]}]}";
         }
         
     }

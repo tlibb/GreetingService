@@ -52,7 +52,7 @@ namespace GreetingService.API.Function
                 return new BadRequestObjectResult(ex);
             }
 
-            return new OkObjectResult("Ok");
+            
         }
     }
 }
