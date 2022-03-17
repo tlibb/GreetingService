@@ -1,4 +1,4 @@
-param location string 
+param location string = 'northeurope'
 
 // storage accounts must be between 3 and 24 characters in length and use numbers and lower-case letters only
 

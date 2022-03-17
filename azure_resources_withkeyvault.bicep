@@ -1,6 +1,6 @@
 
 
-param location string = 'westeurope'
+param location2 string = 'westeurope'
 
 param tenantId string
 
@@ -19,7 +19,7 @@ param WebhookUrl string
 
 resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
   name: 'tinetestdevkv'
-  location: location
+  location: location2
   properties: {
     sku: {
       family: 'A'
