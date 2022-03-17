@@ -1,6 +1,7 @@
 
 
 param location2 string = 'westeurope'
+param location string = 'northeurope'
 
 param tenantId string
 
