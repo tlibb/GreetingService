@@ -14,14 +14,14 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
   properties: {
     sku: {
       family: 'A'
-      name: 'Standard'
+      name: 'standard'
     }
     tenantId: tenantId
 
     enableRbacAuthorization: false      // Using Access Policies model
     accessPolicies: [
       {
-        objectId: 'd89101d9-cf97-4b6c-9656-c6da457d8add'
+        objectId: '28c3384b-4185-44bf-b439-afd517209d04'
         tenantId: tenantId
         permissions: {
           secrets: [
