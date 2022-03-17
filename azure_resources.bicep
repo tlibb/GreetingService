@@ -282,19 +282,27 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         }
         {
           name: 'LoggingStorageAccount'
-          value: 'DefaultEndpointsProtocol=https;AccountName=tinesblobstorage;AccountKey=${listKeys(createStorage.id, createStorage.apiVersion).keys[0].value};EndpointSuffix=core.windows.net'
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/LoggingStorageAccount/)'
         }
         {
           name: 'GreetingDbConnectionString'
-          value: 'Server=tcp:${reference(sqlserver.id).fullyQualifiedDomainName},1433;Initial Catalog=${sqldatabase.name};Persist Security Info=False;User ID=${sqlAdminUser};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/GreetingDbConnectionString/)'
         }
         {
           name: 'ServiceBusConnectionString'
-          value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServiceBusConnectionString/)'
         }
         {
           name: 'WebhookUrl'
-          value: WebhookUrl
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/WebhookUrl/)'
+        }
+        {
+          name: 'ServerAdminLogin'
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServerAdminLogin/)'
+        }
+        {
+          name: 'ServerAdminPassword'
+          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServerAdminPassword/)'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
