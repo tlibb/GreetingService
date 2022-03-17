@@ -86,7 +86,7 @@ resource secret3 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
     attributes: {
       enabled: true
     }
-    value: ServiceBusConnectionKey
+    value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
   }
 }
 resource secret4 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
@@ -99,6 +99,7 @@ resource secret4 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
     value: WebhookUrl
   }
 }
+
 
 module deployResources './azure_resources.bicep' = {
   name: 'deployResources'
