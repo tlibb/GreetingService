@@ -19,6 +19,7 @@ namespace GreetingService.Infrastructure.GreetingRepository
 
         public async Task CreateAsync(Greeting greeting)
         {
+
             await _greetingdbcontext.AddAsync(greeting);
             await _greetingdbcontext.SaveChangesAsync();
         }
