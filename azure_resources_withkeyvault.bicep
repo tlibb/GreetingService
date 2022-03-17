@@ -9,7 +9,7 @@ param tenantId string
 
 
 resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
-  name: kvName
+  name: 'tinetestdevkv'
   location: location
   properties: {
     sku: {
@@ -21,8 +21,8 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
     enableRbacAuthorization: false      // Using Access Policies model
     accessPolicies: [
       {
-        objectId: '28c3384b-4185-44bf-b439-afd517209d04'
         tenantId: tenantId
+        objectId: '73c52ba9-45be-42ab-ad33-617ef3ff1515'
         permissions: {
           secrets: [
             'all'
@@ -42,7 +42,7 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
 
     enablePurgeProtection: true         // Not allowing to purge key vault or its objects after deletion
     enableSoftDelete: true
-    softDeleteRetentionInDays: 90
+    softDeleteRetentionInDays: 90    
     createMode: 'default'       
   }    
 }
