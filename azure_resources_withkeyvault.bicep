@@ -1,9 +1,10 @@
 
-var kvResourceGroup = 'bicepstoragetinedev'
-var kvName = 'tinetestdevkv'
+
 param location string = 'westeurope'
 
 param tenantId string
+
+param sqlAdminUser string
 
 
 
@@ -45,6 +46,14 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
     softDeleteRetentionInDays: 90    
     createMode: 'default'       
   }    
+}
+
+resource secret1 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
+  name: 'ServerAdminLogin'
+  parent: kv  // Pass key vault symbolic name as parent
+  properties: {
+    value: sqlAdminUser
+  }
 }
 
 module deployResources './azure_resources.bicep' = {
