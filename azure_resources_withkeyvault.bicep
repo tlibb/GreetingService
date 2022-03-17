@@ -1,7 +1,7 @@
 
 var kvResourceGroup = 'bicepstoragetinedev'
 var kvName = 'tinetestdevkv'
-param location string = 'northeurope'
+param location string = 'westeurope'
 
 param tenantId string
 
