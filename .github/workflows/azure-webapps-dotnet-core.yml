@@ -91,7 +91,7 @@ jobs:
             az deployment group create \
               --resource-group 'bicepstoragetinedev' \
               --template-file azure_resources_withkeyvault.bicep \
-              --parameters tenantId=${{ secrets.tenantId }} sqlAdminUser=${{ secrets.sqlAdminUser }}
+              --parameters tenantId=${{ secrets.tenantId }} sqlAdminUser=${{ secrets.sqlAdminUser }} sqlAdminPassword=${{ secrets.sqlAdminPassword }} ServiceBusConnectionKey=${{ secrets.ServiceBusConnectionKey }} WebhookUrl=${{ secrets.WebhookUrl}}
  #             --parameters sqlAdminUser=${{ secrets.sqlAdminUser }} sqlAdminPassword=${{ secrets.sqlAdminPassword }} ServiceBusConnectionKey=${{ secrets.ServiceBusConnectionKey }} WebhookUrl=${{ secrets.WebhookUrl}}
               
 
