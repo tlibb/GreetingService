@@ -32,7 +32,7 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
     accessPolicies: [
       {
         tenantId: tenantId
-        objectId: '73c52ba9-45be-42ab-ad33-617ef3ff1515'
+        objectId: '28c3384b-4185-44bf-b439-afd517209d04'
         permissions: {
           secrets: [
             'all'
