@@ -282,27 +282,31 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         }
         {
           name: 'LoggingStorageAccount'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/LoggingStorageAccount/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/LoggingStorageAccount/)'
         }
         {
           name: 'GreetingDbConnectionString'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/GreetingDbConnectionString/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/GreetingDbConnectionString/)'
         }
         {
           name: 'ServiceBusConnectionString'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServiceBusConnectionString/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/ServiceBusConnectionString/)'
         }
         {
           name: 'WebhookUrl'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/WebhookUrl/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/WebhookUrl/)'
         }
         {
           name: 'ServerAdminLogin'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServerAdminLogin/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/ServerAdminLogin/)'
         }
         {
           name: 'ServerAdminPassword'
-          value: '@Microsoft.KeyVault(https://tinetestdevkv.vault.azure.net/secrets/ServerAdminPassword/)'
+          value: '@Microsoft.KeyVault(SecretUri=https://tinetestdevkv.vault.azure.net/secrets/ServerAdminPassword/)'
+        }
+        {
+          name: 'KeyVaultUri'
+          value: 'https://tinetestdevkv.vault.azure.net/'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish

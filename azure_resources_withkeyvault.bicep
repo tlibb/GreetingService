@@ -32,7 +32,7 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
     accessPolicies: [
       {
         tenantId: tenantId
-        objectId: '73c52ba9-45be-42ab-ad33-617ef3ff1515'
+        objectId: '28c3384b-4185-44bf-b439-afd517209d04'
         permissions: {
           secrets: [
             'all'
@@ -86,7 +86,7 @@ resource secret3 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
     attributes: {
       enabled: true
     }
-    value: ServiceBusConnectionKey
+    value: 'Endpoint=sb://tine-sb-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${ServiceBusConnectionKey}'
   }
 }
 resource secret4 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
@@ -99,6 +99,7 @@ resource secret4 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
     value: WebhookUrl
   }
 }
+
 
 module deployResources './azure_resources.bicep' = {
   name: 'deployResources'
