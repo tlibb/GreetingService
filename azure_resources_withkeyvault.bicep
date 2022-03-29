@@ -45,6 +45,21 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' = {
           ]
         }
       }
+      {
+        tenantId: tenantId
+        objectId: '73c52ba9-45be-42ab-ad33-617ef3ff1515'
+        permissions: {
+          secrets: [
+            'all'
+          ]
+          certificates: [
+            'all'
+          ]
+          keys: [
+            'all'
+          ]
+        }
+      }
     ]
 
     enabledForDeployment: true          // VMs can retrieve certificates
@@ -99,6 +114,8 @@ resource secret4 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
     value: WebhookUrl
   }
 }
+
+//GreetingDbConnectionString should also be added!
 
 
 module deployResources './azure_resources.bicep' = {

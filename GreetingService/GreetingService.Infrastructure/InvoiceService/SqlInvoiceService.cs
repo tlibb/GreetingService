@@ -12,11 +12,14 @@ namespace GreetingService.Infrastructure.InvoiceService
     {
         private readonly GreetingDbContext _greetingdbcontext;
 
+        private readonly IGreetingRepository _greetingRepository;
+
         private int _trackid;
 
-        public SqlInvoiceService(GreetingDbContext greetingDbContext)
+        public SqlInvoiceService(GreetingDbContext greetingDbContext, IGreetingRepository greetingRepository)
         {
             _greetingdbcontext = greetingDbContext;
+            _greetingRepository = greetingRepository;
         }
 
         //input invoice should at least have a year, month, and user given
@@ -25,6 +28,7 @@ namespace GreetingService.Infrastructure.InvoiceService
             DateTime StartTime = new DateTime(invoice.Year, invoice.Month, 1);
             DateTime EndTime;
             var myGreetings = new List<Greeting>();
+            var cosmoGreetings = new List<Greeting>();
             if (invoice.Month <= 11)
             {
                 EndTime = new DateTime(invoice.Year, invoice.Month + 1, 1);
@@ -39,6 +43,11 @@ namespace GreetingService.Infrastructure.InvoiceService
             try
             {
                 myGreetings = await _greetingdbcontext.Greetings.Where(g => g.From == invoice.User.Email && g.TimeStamp >= StartTime && g.TimeStamp < EndTime).ToListAsync();
+                //cosmoGreetings = (List<Greeting>)await _greetingRepository.GetAsync(invoice.User.Email, invoice.Year, invoice.Month);
+                //myGreetings.AddRange(cosmoGreetings);
+                //_greetingdbcontext.Add(cosmoGreetings);
+
+                //await _greetingdbcontext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

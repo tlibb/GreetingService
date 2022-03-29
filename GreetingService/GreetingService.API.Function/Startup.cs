@@ -15,7 +15,7 @@ using Azure.Identity;
 using System;
 using Microsoft.Extensions.Azure;
 using Azure.Messaging.ServiceBus;
-
+using Microsoft.Azure.Cosmos;
 
 
 
@@ -52,7 +52,7 @@ namespace GreetingService.API.Function
 
             Log.Logger = logger;
 
-            builder.Services.AddScoped<IGreetingRepository, SqlGreetingRepository>();
+            //builder.Services.AddScoped<IGreetingRepository, SqlGreetingRepository>();
 
             builder.Services.AddDbContext<GreetingDbContext>(options =>
             {
@@ -63,23 +63,23 @@ namespace GreetingService.API.Function
                 });
             });
 
+            builder.Services.AddSingleton<IGreetingRepository, CosmoGreetingRepository>();
+
+
             builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 
             builder.Services.AddSingleton<IMessagingService, ServiceBusMessagingService>();
 
             builder.Services.AddScoped<IApprovalService, TeamsApprovalService>();
 
-           
-
 
         }
 
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
+            var s = Environment.GetEnvironmentVariable("KeyVaultUri");
             builder.ConfigurationBuilder.AddAzureKeyVault(Environment.GetEnvironmentVariable("KeyVaultUri"));
 
-            
-             
         }
 
     }

@@ -97,5 +97,10 @@ namespace GreetingService.Infrastructure.GreetingRepository
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Greeting>> GetAsync(string from, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -66,6 +66,11 @@ namespace GreetingService.Infrastructure.GreetingRepository
 
         }
 
+        public Task<IEnumerable<Greeting>> GetAsync(string from, int year, int month)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateAsync(Greeting greeting)
         {
             var existinggreeting = _memoryRepo.Where(g => g.id == greeting.id).FirstOrDefault();

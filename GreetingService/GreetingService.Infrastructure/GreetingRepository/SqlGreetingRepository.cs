@@ -78,6 +78,8 @@ namespace GreetingService.Infrastructure.GreetingRepository
             myGreeting.To = greeting.To;
             myGreeting.TimeStamp = greeting.TimeStamp;
             
+            //_greetingdbcontext.Update(myGreeting);
+
             await _greetingdbcontext.SaveChangesAsync();
 
         }
@@ -92,6 +94,11 @@ namespace GreetingService.Infrastructure.GreetingRepository
             }
             else throw new Exception("Id not found");
             
+        }
+
+        public Task<IEnumerable<Greeting>> GetAsync(string from, int year, int month)
+        {
+            throw new NotImplementedException();
         }
     }
 }

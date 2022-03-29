@@ -23,7 +23,8 @@ namespace GreetingService.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("GreetingDbConnectionString"));
+            var myvariable = Environment.GetEnvironmentVariable("GreetingDbConnectionString");
+            optionsBuilder.UseSqlServer(myvariable);
         }
 
         /// <summary>
