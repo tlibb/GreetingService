@@ -16,4 +16,4 @@ Topics covered during the course:
 - Azure Cosmos Databases
 - Azure Service Bus
 - Azure Key Vault
-- CI/CD piplines
+- CI/CD pipelines
