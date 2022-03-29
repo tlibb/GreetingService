@@ -13,7 +13,7 @@ Topics covered during the course:
 - Azure Functions
 - Azure Blob Storage
 - Azure SQL Databases
-- Azure Cosmos Databases
+- Azure Cosmos DB
 - Azure Service Bus
 - Azure Key Vault
 - Azure Logic Apps
